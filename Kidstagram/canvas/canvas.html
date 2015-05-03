@@ -1,0 +1,71 @@
+﻿<!-- Canvas -->
+
+    <!--Bootstrap3+Material class-->
+    <div class="navbar navbar-default" style="margin-bottom: 15px; z-index:10;background-color:transparent">
+        <div class="navbar-brand">
+            <i class="icon-material-star-outline"></i>{{ message }}
+        </div>
+        <!--<button type="button" class="btn btn-primary" ng-click="newCanvas()">New</button>
+        <button type="button" class="btn btn-default" ng-click="saveImage()">Save</button>
+        <button type="button" class="btn btn-secondary" ng-click="getPicture()">Add Picture</button>
+        <button type="button" class="btn btn-default" ng-click="uploadImage()">Upload</button>-->
+        <button type="button"  ng-click="newCanvas()">New</button>
+        <button type="button"  ng-click="saveImage()">Save</button>
+        <button type="button"  ng-click="getPicture()">Add Picture</button>
+        <button type="button"  ng-click="uploadImage()">Upload</button>
+    </div>
+
+
+    <div id="content">
+        <p style="text-align:center">Loading Canvas...</p>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-bottom" style="background-color:transparent">
+
+    <!--Pick colors-->
+    <div class="palette-case">
+        <div class="palette white" ng-click="selectColor($event)"></div>
+        <div class="palette red" ng-click="selectColor($event)"></div>
+        <div class="palette blue" ng-click="selectColor($event)"></div>
+        <div class="palette green" ng-click="selectColor($event)"></div>
+        <div class="palette black" ng-click="selectColor($event)"></div>
+        <!--<div class="palette transparent" ng-click="selectColor($event)"></div>-->
+        <div class="palette beige" ng-click="selectColor($event)"></div>
+        <div class="palette yellow" ng-click="selectColor($event)"></div>
+        <div class="palette orange" ng-click="selectColor($event)"></div>
+        <div class="palette brown" ng-click="selectColor($event)"></div>
+        <div class="palette drkbrown" ng-click="selectColor($event)"></div>
+        <div class="palette grey" ng-click="selectColor($event)"></div>
+        <div class="palette ltblue" ng-click="selectColor($event)"></div>
+        <div class="palette ltgreen" ng-click="selectColor($event)"></div>
+        <div class="palette pink" ng-click="selectColor($event)"></div>
+        <div class="palette purple" ng-click="selectColor($event)"></div>
+        <div style="clear:both"></div>
+    </div>
+    <!--Pick size-->
+    <div class="palette-case">
+        <div id="3" class="palette2" ng-click="selectSize($event)">1</div>
+        <div id="6" class="palette2" ng-click="selectSize($event)">3</div>
+        <div id="12" class="palette2" ng-click="selectSize($event)">5</div>
+        <div id="18" class="palette2" ng-click="selectSize($event)">10</div>
+        <div id="24" class="palette2" ng-click="selectSize($event)">20</div>
+        <div style="clear:both"></div>
+    </div>
+    <!--Pick drawing tool-->
+    <div class="palette-case">
+        <div id="pen" class="palette3" ng-click="choosePen()">pen</div>
+        <div id="eraser" class="palette3" ng-click="chooseEraser()">eraser</div>
+        <div style="clear:both"></div>
+    </div>
+</div>
+
+    <img id="imagegoeshere" style="position:absolute;top:600px" />
+
+
+    <!--<script type="text/javascript">
+        // setup a new canvas for after view loads so you get the screen size
+        setTimeout(function () {
+            newCanvas();
+        }, 1000);
+    </script>-->
+
