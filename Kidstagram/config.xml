@@ -10,9 +10,9 @@
   <content src="index.html" />
   <access origin="https://service-poc.azure-mobile.net" />
   <access origin="http://rtwdevstorage.blob.core.windows.net" />
-  <access />
   <preference name="SplashScreen" value="screen" />
   <preference name="Orientation" value="portrait" />
+  <preference name="Fullscreen" value="true" />
   <vs:plugin name="com.msopentech.azure-mobile-services" version="0.1.2" />
   <vs:plugin name="org.apache.cordova.camera" version="0.3.0" />
   <vs:plugin name="org.apache.cordova.device" version="0.2.10" />
@@ -20,5 +20,9 @@
   <vs:plugin name="org.apache.cordova.file" version="1.2.0" />
   <vs:plugin name="org.apache.cordova.inappbrowser" version="0.5.0" />
   <vs:plugin name="org.apache.cordova.splashscreen" version="0.3.1" />
+  <vs:plugin name="org.apache.cordova.camera" version="0.3.2" />
+  <vs:plugin name="org.apache.cordova.device" version="0.2.12" />
+  <vs:plugin name="com.msopentech.azure-mobile-services" version="0.1.4" />
+  <vs:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
   <vs:platformSpecificValues />
 </widget>

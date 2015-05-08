@@ -16,7 +16,7 @@
         }
 
         .palette-case {
-            width: 260px;
+            width: 900px;
             margin: auto;
             text-align: center;
         }
@@ -35,7 +35,6 @@
         .green {background-color: #2c2;}
         .white {background-color: #fff;}
         .black {background-color: #000;}
-        /*.transparent {background-color: transparent;}*/
         .yellow {background-color: #fcff05;}
         .orange {background-color: #ffbb00;}
         .brown {background-color: #aa8d00;}
