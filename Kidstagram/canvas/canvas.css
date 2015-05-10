@@ -19,7 +19,9 @@
             width: 900px;
             margin: auto;
             text-align: center;
+            -webkit-overflow-scrolling: touch;
         }
+        ::-webkit-scrollbar { display: none; }
 
         .palette, .palette2, .palette3 {
             height: 36px;
