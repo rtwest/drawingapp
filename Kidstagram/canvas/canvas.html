@@ -20,7 +20,7 @@
         <p style="text-align:center">Loading Canvas...</p>
     </div>
 
-    <div class="navbar navbar-fixed-bottom" style="background-color:transparent; overflow-x:auto;margin-bottom:-10px"> 
+    <div class="navbar navbar-fixed-bottom" style="background-color:transparent; overflow-x:auto; margin-bottom:-10px"> 
         <!--overflow and margin used to enable up coverup/hide scrollbar-->
 
     <!--Pick colors-->
@@ -54,8 +54,12 @@
     </div>
     <!--Pick drawing tool-->
     <div class="palette-case">
-        <div id="pen" class="palette3" ng-click="choosePen()">pen</div>
-        <div id="eraser" class="palette3" ng-click="chooseEraser()">eraser</div>
+        <div id="pen" class="palette3" ng-click="choosePen()" aria-label="select pen tool">
+            <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>pen
+        </div>
+        <div id="eraser" class="palette3" ng-click="chooseEraser()" aria-label="select eraser tool">
+            <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>eraser
+        </div>
         <div style="clear:both"></div>
     </div>
 </div>
