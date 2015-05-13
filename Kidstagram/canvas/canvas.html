@@ -1,18 +1,29 @@
 ﻿<!-- Canvas -->
 
     <!--Bootstrap3+Material class-->
-    <div class="navbar navbar-default" style="margin-bottom: 15px; z-index:10;background-color:transparent">
+    <div class="navbar navbar-default" style="margin-bottom: 15px; z-index:10;background-color:transparent;overflow-x:auto;">
+        <!--overflow and margin used to enable up coverup/hide scrollbar-->
+
         <div class="navbar-brand">
             <i class="icon-material-star-outline"></i>{{ message }}
         </div>
-        <!--<button type="button" class="btn btn-primary" ng-click="newCanvas()">New</button>
-        <button type="button" class="btn btn-default" ng-click="saveImage()">Save</button>
-        <button type="button" class="btn btn-secondary" ng-click="getPicture()">Add Picture</button>
-        <button type="button" class="btn btn-default" ng-click="uploadImage()">Upload</button>-->
-        <button type="button"  ng-click="newCanvas()">New</button>
+        <div class="palette-case">
+            <div id="pen" class="palette3" ng-click="choosePen()" aria-label="select pen tool">
+                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>pen
+            </div>
+            <div id="eraser" class="palette3" ng-click="chooseEraser()" aria-label="select eraser tool">
+                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>eraser
+            </div>
+
+            <button type="button" class="btn btn-primary" ng-click="newCanvas()">New</button>
+            <button type="button" class="btn btn-default" ng-click="saveImage()">Save</button>
+            <button type="button" class="btn btn-secondary" ng-click="getPicture()">Camera</button>
+            <button type="button" class="btn btn-default" ng-click="uploadImage()">Share</button>
+            <!--<button type="button"  ng-click="newCanvas()">New</button>
         <button type="button"  ng-click="saveImage()">Save</button>
-        <button type="button"  ng-click="getPicture()">Add Picture</button>
-        <button type="button"  ng-click="uploadImage()">Upload</button>
+        <button type="button"  ng-click="getPicture()">Camera</button>
+        <button type="button"  ng-click="uploadImage()">Share</button>-->
+        </div>
     </div>
 
 
@@ -30,7 +41,6 @@
         <div class="palette blue" ng-click="selectColor($event)"></div>
         <div class="palette green" ng-click="selectColor($event)"></div>
         <div class="palette black" ng-click="selectColor($event)"></div>
-        <!--<div class="palette transparent" ng-click="selectColor($event)"></div>-->
         <div class="palette beige" ng-click="selectColor($event)"></div>
         <div class="palette yellow" ng-click="selectColor($event)"></div>
         <div class="palette orange" ng-click="selectColor($event)"></div>
@@ -49,7 +59,7 @@
         <div id="6" class="palette2" ng-click="selectSize($event)">3</div>
         <div id="12" class="palette2" ng-click="selectSize($event)">5</div>
         <div id="18" class="palette2" ng-click="selectSize($event)">10</div>
-        <div id="24" class="palette2" ng-click="selectSize($event)">20</div>
+        <div id="30" class="palette2" ng-click="selectSize($event)">20</div>
         <div style="clear:both"></div>
     </div>
     <!--Pick drawing tool-->

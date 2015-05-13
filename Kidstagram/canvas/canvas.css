@@ -21,6 +21,7 @@
             text-align: center;
             -webkit-overflow-scrolling: touch;
         }
+        /*Not sure if this should go here global or inside an id or class*/
         ::-webkit-scrollbar { display: none; }
 
         .palette, .palette2, .palette3 {
