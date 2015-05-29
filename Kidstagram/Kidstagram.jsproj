@@ -101,6 +101,7 @@
     <Content Include="app.js" />
     <Content Include="canvas\megapix-image.js" />
     <Content Include="canvas\megapix-image.test.js" />
+    <Content Include="images\kidstagram.svg" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\.fetch.json" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\LICENSE" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\package.json" />
@@ -285,7 +286,6 @@
     <Content Include="fonts\Roboto_Condensed\RobotoCondensed-Regular.ttf" />
     <Content Include="merges\android\scripts\android2.3-jscompat.js" />
     <Content Include="merges\android\scripts\platformOverrides.js" />
-    <Folder Include="images\" />
     <Folder Include="merges\ios\" />
     <Content Include="merges\windows8\scripts\platformOverrides.js" />
     <Content Include="merges\windows8\scripts\winstore-jscompat.js" />
