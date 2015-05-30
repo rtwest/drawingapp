@@ -11,15 +11,18 @@
         <div class="palette-case">
 
             <!--Pick drawing tool-->
-            <div id="pen" class="palette3" ng-click="choosePen()" aria-label="select pen tool">
-                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>pen
+            <div id="pen" style="float:left" ng-click="choosePen()" aria-label="select pen tool">
+                <div class="svgicon new"></div>
+                <div>pen</div>
             </div>
             <div id="eraser" class="palette3" ng-click="chooseEraser()" aria-label="select eraser tool">
                 <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>eraser
             </div>
 
             <button type="button" class="btn btn-primary" ng-click="newCanvas()">New</button>
-            <button type="button" class="btn btn-default" ng-click="saveImage()">Save</button>
+            <button type="button" class="btn btn-default" style="margin:20px 5px;border-radius:100px" ng-click="saveImage()">
+                <div class="svgicon new"></div>Save
+            </button>
             <button type="button" class="btn btn-secondary" ng-click="getPicture()">Camera</button>
             <button type="button" class="btn btn-default" ng-click="uploadImage()">Share</button>
             <!--<button type="button"  ng-click="newCanvas()">New</button>

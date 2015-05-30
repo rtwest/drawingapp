@@ -1897,12 +1897,14 @@ body .jumbotron-material-lightgrey,
           transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none !important;
 }
-.btn:hover {
+
+/*.btn:hover {
   color: rgba(255, 255, 255, 0.84);
-}
-.btn:hover:not(.btn-link) {
+}*/
+/*.btn:hover:not(.btn-link) {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.28);
-}
+}*/
+
 .btn:active:not(.btn-link) {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
@@ -1983,13 +1985,13 @@ body .jumbotron-material-lightgrey,
 }
 .btn-link:hover,
 .btn:not([class^="btn btn-"]):hover,
-.btn-default:hover {
+/*.btn-default:hover {
   color: rgba(0, 0, 0, 0.84);
-}
+}*/
 .btn:not([class^="btn btn-"]):hover,
-.btn-default:hover {
+/*.btn-default:hover {
   background-color: rgba(255, 255, 255, 0.5);
-}
+}*/
 .btn-raised {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -webkit-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);

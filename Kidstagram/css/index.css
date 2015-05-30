@@ -1,2 +1,14 @@
-﻿body {
+﻿
+
+.svgicon {
+    background-image: url('../images/kidstagram.svg');
+    background-repeat: no-repeat;
+    background-size:1600% /* 100*number of icons (assuming constant size) */
 }
+
+.svgicon.new {
+    background-position: -57px -77px; /* this was trial and error */
+    width: 34px; /* px size of image */
+    height: 50px;
+}
+

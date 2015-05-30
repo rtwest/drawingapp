@@ -99,6 +99,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
+    <Content Include="canvas\canvas.css" />
     <Content Include="canvas\megapix-image.js" />
     <Content Include="canvas\megapix-image.test.js" />
     <Content Include="images\kidstagram.svg" />
