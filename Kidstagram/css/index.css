@@ -1,14 +1,45 @@
 ﻿
 
 .svgicon {
-    background-image: url('../images/kidstagram.svg');
+    background-image: url('../images/kidstagramicons.svg');
     background-repeat: no-repeat;
-    background-size:1600% /* 100*number of icons (assuming constant size) */
+    /*background-size:1600% /* 100*number of icons (assuming constant size) */
+    /*background-size: 1800px 100px; /* actual size at 640 - 2x */
+    background-size: 900px 50px; /* actual size at 320 = 1x */
 }
 
 .svgicon.new {
-    background-position: -57px -77px; /* this was trial and error */
-    width: 34px; /* px size of image */
-    height: 50px;
+    background-position: -1px -2px; /*This was trial and error*/
+    width: 22px; 
+    height: 30px;
 }
 
+.svgicon.save {
+    background-position: -1px -2px; 
+    width: 22px; 
+    height: 30px;
+}
+
+.svgicon.camera {
+    background-position: -1px -2px; 
+    width: 22px; 
+    height: 30px;
+}
+
+.svgicon.share {
+    background-position: -1px -2px; 
+    width: 22px; 
+    height: 30px;
+}
+
+.svgicon.pen {
+    background-position: -200px -2px; 
+    width: 29px; 
+    height: 30px;
+}
+
+.svgicon.eraser {
+    background-position: -112px -2px; 
+    width: 28px; 
+    height: 30px;
+}

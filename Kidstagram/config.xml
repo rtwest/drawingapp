@@ -13,6 +13,7 @@
   <preference name="SplashScreen" value="screen" />
   <preference name="Orientation" value="portrait" />
   <preference name="Fullscreen" value="true" />
+  <preference name="DisallowOverscroll" value="true" />   <!--custom addition to prevent overscroll or bounce when view pulled down-->
   <vs:plugin name="com.msopentech.azure-mobile-services" version="0.1.2" />
   <vs:plugin name="org.apache.cordova.camera" version="0.3.0" />
   <vs:plugin name="org.apache.cordova.device" version="0.2.10" />
