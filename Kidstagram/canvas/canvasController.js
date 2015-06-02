@@ -25,6 +25,13 @@
 //    - Data needs - imagename, Who shared with > ,  
 //
 //
+//  TODO
+//  - ADD JS FOR ONCLICK TO CHANGE PEN / ERASER BACKGROUND
+//  - START A BLANK PAGE ON LOAD
+//  - BE MINIMAL
+//  - AUTO SAVE AS YOU GO
+//
+//
 //////////////////////////////////////////////////////////////////////////////////////////
 
 

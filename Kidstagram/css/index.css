@@ -14,21 +14,21 @@
     height: 30px;
 }
 
-.svgicon.save {
-    background-position: -1px -2px; 
-    width: 22px; 
+.svgicon.checkmark {
+    background-position: -505px -1px; 
+    width: 26px; 
     height: 30px;
 }
 
 .svgicon.camera {
-    background-position: -1px -2px; 
-    width: 22px; 
+    background-position: -544px -2px; 
+    width: 26px; 
     height: 30px;
 }
 
 .svgicon.share {
-    background-position: -1px -2px; 
-    width: 22px; 
+    background-position: -626px -2px; 
+    width: 58px; 
     height: 30px;
 }
 
@@ -37,8 +37,17 @@
     width: 29px; 
     height: 30px;
 }
-
+.svgicon.penselected {
+    background-position: -236px -4px; 
+    width: 42px; 
+    height: 42px;
+}
 .svgicon.eraser {
+    background-position: -148px -2px; 
+    width: 28px; 
+    height: 30px;
+}
+.svgicon.eraserselected {
     background-position: -112px -2px; 
     width: 28px; 
     height: 30px;
