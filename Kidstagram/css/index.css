@@ -3,9 +3,9 @@
 .svgicon {
     background-image: url('../images/kidstagramicons.svg');
     background-repeat: no-repeat;
-    /*background-size:1600% /* 100*number of icons (assuming constant size) */
     /*background-size: 1800px 100px; /* actual size at 640 - 2x */
     background-size: 900px 50px; /* actual size at 320 = 1x */
+
 }
 
 .svgicon.new {
@@ -42,12 +42,12 @@
     width: 42px; 
     height: 42px;
 }
-.svgicon.eraser {
-    background-position: -148px -2px; 
-    width: 28px; 
-    height: 30px;
-}
 .svgicon.eraserselected {
+    background-position: -148px -4px; 
+    width: 42px; 
+    height: 42px;
+}
+.svgicon.eraser {
     background-position: -112px -2px; 
     width: 28px; 
     height: 30px;

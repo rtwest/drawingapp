@@ -78,15 +78,24 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#canvas').off(); // reset event handler
         drawTouch();
         drawMouse(); // only needed for testing
-        $('#pen').css('borderColor', '#fff');
-        $('#eraser').css('borderColor', 'transparent');
+        //$('#penicon').removeClass('pen').addClass('penselected');
+        //$('#erasericon').removeClass('eraserselected').addClass('eraser');
+
+        $("#penicon").fadeOut(1000, function () {
+            $(this).removeClass("pen");
+        });
+        $("#penicon").fadeIn(1000, function () {
+            $(this).addClass("penselected");
+        });
+
     };
     $scope.chooseEraser = function () {
         $('#canvas').off(); // reset event handler
         eraseTouch(); 
         eraseMouse(); // for testing only
-        $('#eraser').css('borderColor', '#fff');
-        $('#pen').css('borderColor', 'transparent');
+        $('#penicon').removeClass('penselected').addClass('pen');
+        $('#erasericon').removeClass('eraser').addClass('eraserselected');
+
     };
 
     // For choosing the color
