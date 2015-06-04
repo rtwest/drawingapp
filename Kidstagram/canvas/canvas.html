@@ -22,6 +22,9 @@
             <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="choosePen()">
                 <div id="penicon" class="svgicon pen"></div>
             </button>
+            <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseBrush()">
+                <div id="brushicon" class="svgicon pen"></div>
+            </button>
             <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseEraser()">
                 <div id="erasericon" class="svgicon eraser"></div>
             </button>
@@ -71,11 +74,11 @@
     </div>
     <!--Pick size-->
     <div class="palette-case">
-        <div id="3" class="palette2" ng-click="selectSize($event)">1</div>
-        <div id="6" class="palette2" ng-click="selectSize($event)">3</div>
-        <div id="12" class="palette2" ng-click="selectSize($event)">5</div>
-        <div id="18" class="palette2" ng-click="selectSize($event)">10</div>
-        <div id="30" class="palette2" ng-click="selectSize($event)">20</div>
+        <div id="4" class="palette2" ng-click="selectSize($event)">4</div>
+        <!--<div id="6" class="palette2" ng-click="selectSize($event)">3</div>-->
+        <div id="12" class="palette2" ng-click="selectSize($event)">12</div>
+        <!--<div id="18" class="palette2" ng-click="selectSize($event)">10</div>-->
+        <div id="30" class="palette2" ng-click="selectSize($event)">30</div>
         <div style="clear:both"></div>
     </div>
     <!--Pick drawing tool-->

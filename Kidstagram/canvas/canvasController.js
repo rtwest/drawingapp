@@ -50,6 +50,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var ctx, color = "#000";
     var line_Width, size = 5;
     var tool = 'pen'
+    var opacity = 1; // setting the .globalAlpha for brush as watercolor
     var x, y, lastx, lasty = 0;
     var backgroundImage = new Image;
 
@@ -66,6 +67,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         ctx.lineCap = "round";
         ctx.lineJoin = 'round';
         ctx.strokeStyle = color;
+        ctx.globalAlpha = opacity;
         ctx.lineWidth = line_Width;
         // setup to trigger drawing on mouse or touch
         drawTouch();
@@ -76,26 +78,41 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // ------------------------------------------
     $scope.choosePen = function () {
         $('#canvas').off(); // reset event handler
+        opacity = 1; // changing .globalAlpha to make stroke solid
         drawTouch();
         drawMouse(); // only needed for testing
-        //$('#penicon').removeClass('pen').addClass('penselected');
-        //$('#erasericon').removeClass('eraserselected').addClass('eraser');
+        $('#penicon').removeClass('pen').addClass('penselected');
+        $('#brushicon').removeClass('brushelected').addClass('brush');
+        $('#erasericon').removeClass('eraserselected').addClass('eraser');
 
-        $("#penicon").fadeOut(1000, function () {
-            $(this).removeClass("pen");
-        });
-        $("#penicon").fadeIn(1000, function () {
-            $(this).addClass("penselected");
-        });
+        //$("#penicon").fadeOut(1000, function () {
+        //    $(this).removeClass("pen");
+        //});
+        //$("#penicon").fadeIn(1000, function () {
+        //    $(this).addClass("penselected");
+        //});
+        //$('#brushicon').removeClass('brushelected').addClass('brush');
+
 
     };
     $scope.chooseEraser = function () {
         $('#canvas').off(); // reset event handler
+        opacity = 1; // changing .globalAlpha to make stroke solid
         eraseTouch(); 
         eraseMouse(); // for testing only
         $('#penicon').removeClass('penselected').addClass('pen');
+        $('#brushicon').removeClass('brushelected').addClass('brush');
         $('#erasericon').removeClass('eraser').addClass('eraserselected');
+    };
 
+    $scope.chooseBrush = function () {
+        opacity = .2; // changing .globalAlpha to make stroke transparent
+        $('#canvas').off(); // reset event handler
+        drawTouch();
+        brushMouse(); // only needed for testing
+        $('#penicon').removeClass('penselected').addClass('pen');
+        $('#brushicon').removeClass('brush').addClass('brushelected');
+        $('#erasericon').removeClass('eraserselected').addClass('eraser');
     };
 
     // For choosing the color
@@ -117,7 +134,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // For choosing the brush size
     // ------------------------------------------
     $scope.selectSize = function (clickEvent) {
-        $scope.clickEvent = globalService.simpleKeys(clickEvent);
+        $scope.clickEvent = globalService.simpleKeys(clickEvent); // helper function suggested by somebody
 
         // toggle the UI for the selected size
         for (var i = 0; i < document.getElementsByClassName("palette2").length; i++) {
@@ -125,7 +142,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         }
         clickEvent.target.style.borderColor = "#fff";
 
-        size = clickEvent.target.id;
+        size = clickEvent.target.id;  // !! This is the important part
         ctx.beginPath(); // start a new line
         ctx.lineWidth = size; // set the new line size
     };
@@ -135,6 +152,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // @@@@   WHY THE -44PX ON Y AXIS?
     var drawTouch = function () {
         ctx.lineWidth = size;
+        ctx.globalAlpha = opacity;
         var start = function (e) {
             x = e.originalEvent.changedTouches[0].pageX;
             y = e.originalEvent.changedTouches[0].pageY - 44;
@@ -170,6 +188,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // @@@@   WHY THE -44PX ON Y AXIS?
     var drawMouse = function () {
         ctx.lineWidth = size;
+        ctx.globalAlpha = opacity;
         var clicked = 0;
 
         var start = function (e) {
@@ -213,6 +232,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ NEED TO ADD ERASE TOUCH
     function eraseTouch() {
         ctx.lineWidth = 18;
+        ctx.globalAlpha = opacity;
         var starteraser = function (e) {
             x = e.originalEvent.changedTouches[0].pageX;
             y = e.originalEvent.changedTouches[0].pageY - 44;
@@ -243,6 +263,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     function eraseMouse() {
         ctx.lineWidth = 18;
+        ctx.globalAlpha = opacity;
         var clicked2 = 0;
         var starteraser = function (e) {
             clicked2 = 1;
@@ -273,6 +294,61 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#canvas').on('mousemove', moveeraser);
         $('#canvas').on('mouseup', stoperaser);
     };
+
+
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // ADDING THE BRUSH ----  PLAYING AROUND HERE  --  WOULD BE BETTER TO ADD THE LINE AS A CANVAS LAYER AND FIX OPACITY FOR THAT WHOLE LAYER
+    //  - Start - creates a new canvas.  Stop - merges it on top of the bottom canvas
+    // -----------------------------------------
+    // @@@@   WHY THE -44PX ON Y AXIS?
+    var brushMouse = function () {
+        ctx.lineWidth = size;
+        ctx.globalAlpha = opacity;
+        var clicked = 0;
+
+        var startbrush = function (e) {
+            clicked = 1;
+            ctx.beginPath();
+            ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+            x = e.pageX;
+            y = e.pageY - 44;
+            ctx.moveTo(x, y);
+            // make a dot on tap
+            ctx.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.beginPath(); // after dot, start a new line and reset properties
+            ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+        };
+        var movebrush = function (e) {
+            if (clicked) {
+                lastx = x;
+                lasty = y;
+                x = e.pageX;
+                y = e.pageY - 44;
+                ctx.moveTo(lastx, lasty);
+                ctx.lineTo(x, y);
+                ctx.closePath();
+                ctx.strokeStyle = color;
+                ctx.stroke();
+            };
+        };
+        var stopbrush = function (e) {
+            clicked = 0;
+            e.preventDefault;
+        };
+
+        $('#canvas').on('mousedown', startbrush);
+        $('#canvas').on('mousemove', movebrush);
+        $('#canvas').on('mouseup', stopbrush);
+
+    };
+    // ------------------------------------------
+
+
+
+
 
 
     // Function to get picuture from camera and insert onto canvas
