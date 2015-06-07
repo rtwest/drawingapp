@@ -4,7 +4,6 @@
 //  ISSUES
 //  - *** Background not saved 'autosaved' with canvas on uploading.  Save, then Upload does work because Background is drawn into canvas. 
 //  - Fix orientation to prevent rotating screen.  I think I fixed this in config.xml
-//  - have 1 eraser size 20. I think I fixed this
 //  -------
 //  iOS
 //  - CanvasPic re-drawn back onto Canvas at wrong size sometimes.  I think I fixed with a check for HiRes displays.  
@@ -26,6 +25,7 @@
 //
 //
 //  TODO
+//  - Test Brush on Touch
 //  - ADD JS FOR ONCLICK TO CHANGE PEN / ERASER BACKGROUND
 //  - START A BLANK PAGE ON LOAD
 //  - BE MINIMAL
@@ -67,7 +67,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         ctx.lineCap = "round";
         ctx.lineJoin = 'round';
         ctx.strokeStyle = color;
-        ctx.globalAlpha = opacity;
         ctx.lineWidth = line_Width;
         // setup to trigger drawing on mouse or touch
         drawTouch();
@@ -78,7 +77,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // ------------------------------------------
     $scope.choosePen = function () {
         $('#canvas').off(); // reset event handler
-        opacity = 1; // changing .globalAlpha to make stroke solid
         drawTouch();
         drawMouse(); // only needed for testing
         $('#penicon').removeClass('pen').addClass('penselected');
@@ -93,6 +91,11 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         //});
         //$('#brushicon').removeClass('brushelected').addClass('brush');
 
+        // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
+        if ($('#canvas2').length) {
+            $('#canvas2').remove();
+        };
+        
 
     };
     $scope.chooseEraser = function () {
@@ -103,12 +106,16 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#penicon').removeClass('penselected').addClass('pen');
         $('#brushicon').removeClass('brushelected').addClass('brush');
         $('#erasericon').removeClass('eraser').addClass('eraserselected');
+
+        // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
+        if ($('#canvas2').length) {
+            $('#canvas2').remove();
+        };
     };
 
     $scope.chooseBrush = function () {
-        opacity = .2; // changing .globalAlpha to make stroke transparent
         $('#canvas').off(); // reset event handler
-        drawTouch();
+        brushTouch();
         brushMouse(); // only needed for testing
         $('#penicon').removeClass('penselected').addClass('pen');
         $('#brushicon').removeClass('brush').addClass('brushelected');
@@ -149,10 +156,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     // prototype to	start drawing on TOUCH using canvas moveTo and lineTo
     // ------------------------------------------
-    // @@@@   WHY THE -44PX ON Y AXIS?
     var drawTouch = function () {
         ctx.lineWidth = size;
-        ctx.globalAlpha = opacity;
         var start = function (e) {
             x = e.originalEvent.changedTouches[0].pageX;
             y = e.originalEvent.changedTouches[0].pageY - 44;
@@ -180,15 +185,10 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#canvas').on('touchmove', move);
     };
 
-
-
-
     // prototype to	start drawing on MOUSE using canvas moveTo and lineTo
     // ------------------------------------------
-    // @@@@   WHY THE -44PX ON Y AXIS?
     var drawMouse = function () {
         ctx.lineWidth = size;
-        ctx.globalAlpha = opacity;
         var clicked = 0;
 
         var start = function (e) {
@@ -213,6 +213,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 y = e.pageY - 44;
                 ctx.moveTo(lastx, lasty);
                 ctx.lineTo(x, y);
+                //ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
                 ctx.closePath();
                 ctx.strokeStyle = color;
                 ctx.stroke();
@@ -229,10 +230,9 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     };
 
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ NEED TO ADD ERASE TOUCH
+
     function eraseTouch() {
         ctx.lineWidth = 18;
-        ctx.globalAlpha = opacity;
         var starteraser = function (e) {
             x = e.originalEvent.changedTouches[0].pageX;
             y = e.originalEvent.changedTouches[0].pageY - 44;
@@ -263,7 +263,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     function eraseMouse() {
         ctx.lineWidth = 18;
-        ctx.globalAlpha = opacity;
         var clicked2 = 0;
         var starteraser = function (e) {
             clicked2 = 1;
@@ -296,30 +295,107 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     };
 
 
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    // ADDING THE BRUSH ----  PLAYING AROUND HERE  --  WOULD BE BETTER TO ADD THE LINE AS A CANVAS LAYER AND FIX OPACITY FOR THAT WHOLE LAYER
-    //  - Start - creates a new canvas.  Stop - merges it on top of the bottom canvas
-    // -----------------------------------------
-    // @@@@   WHY THE -44PX ON Y AXIS?
+
+    var brushTouch = function () {
+
+        //new canvas
+        var canvas2 = document.createElement('canvas');
+        canvas2.id = 'canvas2';
+        canvas2.width = window.innerWidth;
+        canvas2.height = window.innerHeight - 90;
+        canvas2.style.position = "absolute";
+        canvas2.style.left = 0;
+        $('#content').append(canvas2);
+        ctx2 = canvas2.getContext("2d");
+        ctx2.lineCap = "round";
+        ctx2.lineJoin = 'round';
+        ctx2.strokeStyle = color;
+        ctx2.globalAlpha = .5;
+
+        var startbrush = function (e) {
+
+            ctx2.lineWidth = size;
+            $('#canvas2').css('opacity', '1');  //show the 2nd canvas
+
+            ctx2.beginPath();
+            ctx2.globalCompositeOperation = 'destination-atop';
+            x = e.pageX;
+            y = e.pageY - 44;
+            ctx2.moveTo(x, y);
+            // make a dot on tap
+            ctx2.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
+            ctx2.fillStyle = color;
+            ctx2.fill();
+            ctx2.beginPath(); // after dot, start a new line and reset properties
+            ctx2.globalCompositeOperation = 'destination-atop';
+        };
+        var movebrush = function (e) {
+                e.preventDefault();
+                lastx = x;
+                lasty = y;
+                x = e.pageX;
+                y = e.pageY - 44;
+                ctx2.moveTo(lastx, lasty);
+                ctx2.lineTo(x, y);
+                ctx2.closePath();
+                ctx2.strokeStyle = color;
+                ctx2.stroke();
+        };
+        var stopbrush = function (e) {
+            e.preventDefault;
+
+            // draw canvas2 down on original canvas and remove canvas2
+            var img = new Image();
+            img.src = canvas2.toDataURL();
+            ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+            ctx.drawImage(img, 0, 0);
+            $('#canvas2').css('opacity', '0');  //hide the canvas after you copy it down so you don't see it duplicated
+        };
+
+        $('#canvas2').on('touchstart', startbrush);
+        $('#canvas2').on('touchmove', movebrush);
+        $('#canvas2').on('touchend', stopbrush);
+
+    };
+    // ------------------------------------------
+
+
+
     var brushMouse = function () {
-        ctx.lineWidth = size;
-        ctx.globalAlpha = opacity;
+   
+        //new canvas
+        var canvas2 = document.createElement('canvas');
+        canvas2.id = 'canvas2';
+        canvas2.width = window.innerWidth;
+        canvas2.height = window.innerHeight - 90;
+        canvas2.style.position = "absolute";
+        canvas2.style.left = 0;
+        $('#content').append(canvas2);
+        ctx2 = canvas2.getContext("2d");
+        ctx2.lineCap = "round";
+        ctx2.lineJoin = 'round';
+        ctx2.strokeStyle = color;
+        ctx2.globalAlpha = .5;
+
         var clicked = 0;
 
         var startbrush = function (e) {
+
+            ctx2.lineWidth = size;
+            $('#canvas2').css('opacity', '1');  //show the 2nd canvas
+
             clicked = 1;
-            ctx.beginPath();
-            ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+            ctx2.beginPath();
+            ctx2.globalCompositeOperation = 'destination-atop';
             x = e.pageX;
             y = e.pageY - 44;
-            ctx.moveTo(x, y);
+            ctx2.moveTo(x, y);
             // make a dot on tap
-            ctx.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
-            ctx.fillStyle = color;
-            ctx.fill();
-            ctx.beginPath(); // after dot, start a new line and reset properties
-            ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+            ctx2.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
+            ctx2.fillStyle = color;
+            ctx2.fill();
+            ctx2.beginPath(); // after dot, start a new line and reset properties
+            ctx2.globalCompositeOperation = 'destination-atop';
         };
         var movebrush = function (e) {
             if (clicked) {
@@ -327,21 +403,28 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 lasty = y;
                 x = e.pageX;
                 y = e.pageY - 44;
-                ctx.moveTo(lastx, lasty);
-                ctx.lineTo(x, y);
-                ctx.closePath();
-                ctx.strokeStyle = color;
-                ctx.stroke();
+                ctx2.moveTo(lastx, lasty);
+                ctx2.lineTo(x, y);
+                ctx2.closePath();
+                ctx2.strokeStyle = color;
+                ctx2.stroke();
             };
         };
         var stopbrush = function (e) {
             clicked = 0;
             e.preventDefault;
+
+            // draw canvas2 down on original canvas and remove canvas2
+            var img = new Image();
+            img.src = canvas2.toDataURL();
+            ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+            ctx.drawImage(img,0,0);
+            $('#canvas2').css('opacity','0');  //hide the canvas after you copy it down so you don't see it duplicated
         };
 
-        $('#canvas').on('mousedown', startbrush);
-        $('#canvas').on('mousemove', movebrush);
-        $('#canvas').on('mouseup', stopbrush);
+        $('#canvas2').on('mousedown', startbrush);
+        $('#canvas2').on('mousemove', movebrush);
+        $('#canvas2').on('mouseup', stopbrush);
 
     };
     // ------------------------------------------
