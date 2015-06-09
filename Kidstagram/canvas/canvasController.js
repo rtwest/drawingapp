@@ -13,8 +13,6 @@
 //  - AddPicture button doesn't work
 //  - DrawTouch has weird 2nd dot on touch release and move start
 //  -------
-//  - Need to add text 
-//  -------
 //  - Need localStorage photolibrary.  Limit is 2-5MB.
 //    - Saved array of file names in the device library?
 //    - Saved array of file names & filename|file pairs?
@@ -26,8 +24,8 @@
 //
 //  TODO
 //  - Test Brush on Touch
-//  - ADD JS FOR ONCLICK TO CHANGE PEN / ERASER BACKGROUND
-//  - START A BLANK PAGE ON LOAD
+//  - Something jumping with button selected
+//  - !!!!!!!! Brush failing with .toDataUrl when 
 //  - BE MINIMAL
 //  - AUTO SAVE AS YOU GO
 //
@@ -38,8 +36,8 @@
 
 cordovaNG.controller('canvasController', function ($scope, $http, globalService) {
 
-    // Scope is like the partial view datamodel.  'message' is defined in the paritial view
-    $scope.message = 'This is the Canvas view';
+    // Scope is like the partial view datamodel.  'message' is defined in the partial html view
+    //$scope.message = "Let's draw";
     // Try seeing if you have image in localStorage
     try {
         document.getElementById("imagegoeshere").src = localStorage.getItem("image1");
@@ -50,9 +48,24 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var ctx, color = "#000";
     var line_Width, size = 5;
     var tool = 'pen'
-    var opacity = 1; // setting the .globalAlpha for brush as watercolor
     var x, y, lastx, lasty = 0;
     var backgroundImage = new Image;
+
+
+    //// Ugly hack to create an HTML canvas when the HTML partial view is loaded
+    //// -----------------------------------------------------------------------
+    ////define, resize, and insert canvas
+    //document.getElementById("content").style.height = window.innerHeight - 90;
+    //var canvas = '<canvas id="canvas" width="' + window.innerWidth + '" height="' + (window.innerHeight - 90) + '"></canvas>';
+    //document.getElementById("content").innerHTML = canvas;
+    //// setup canvas
+    //ctx = document.getElementById("canvas").getContext("2d");
+    //ctx.lineCap = "round";
+    //ctx.lineJoin = 'round';
+    //ctx.strokeStyle = color;
+    //ctx.lineWidth = line_Width;
+
+
 
 
     // Function to setup a new canvas for drawing
@@ -79,9 +92,9 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#canvas').off(); // reset event handler
         drawTouch();
         drawMouse(); // only needed for testing
-        $('#penicon').removeClass('pen').addClass('penselected');
-        $('#brushicon').removeClass('brushelected').addClass('brush');
-        $('#erasericon').removeClass('eraserselected').addClass('eraser');
+        $('#penicon').addClass('selected');
+        $('#brushicon').removeClass('selected');
+        $('#erasericon').removeClass('selected');
 
         //$("#penicon").fadeOut(1000, function () {
         //    $(this).removeClass("pen");
@@ -100,12 +113,11 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     };
     $scope.chooseEraser = function () {
         $('#canvas').off(); // reset event handler
-        opacity = 1; // changing .globalAlpha to make stroke solid
         eraseTouch(); 
         eraseMouse(); // for testing only
-        $('#penicon').removeClass('penselected').addClass('pen');
-        $('#brushicon').removeClass('brushelected').addClass('brush');
-        $('#erasericon').removeClass('eraser').addClass('eraserselected');
+        $('#penicon').removeClass('selected');
+        $('#brushicon').removeClass('selected');
+        $('#erasericon').addClass('selected');
 
         // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
         if ($('#canvas2').length) {
@@ -117,9 +129,9 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#canvas').off(); // reset event handler
         brushTouch();
         brushMouse(); // only needed for testing
-        $('#penicon').removeClass('penselected').addClass('pen');
-        $('#brushicon').removeClass('brush').addClass('brushelected');
-        $('#erasericon').removeClass('eraserselected').addClass('eraser');
+        $('#penicon').removeClass('selected');
+        $('#brushicon').addClass('selected');
+        $('#erasericon').removeClass('selected');
     };
 
     // For choosing the color
@@ -299,18 +311,20 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var brushTouch = function () {
 
         //new canvas
-        var canvas2 = document.createElement('canvas');
-        canvas2.id = 'canvas2';
-        canvas2.width = window.innerWidth;
-        canvas2.height = window.innerHeight - 90;
-        canvas2.style.position = "absolute";
-        canvas2.style.left = 0;
-        $('#content').append(canvas2);
-        ctx2 = canvas2.getContext("2d");
-        ctx2.lineCap = "round";
-        ctx2.lineJoin = 'round';
-        ctx2.strokeStyle = color;
-        ctx2.globalAlpha = .5;
+        if (!($('#canvas2').length)) {
+            var canvas2 = document.createElement('canvas');
+            canvas2.id = 'canvas2';
+            canvas2.width = window.innerWidth;
+            canvas2.height = window.innerHeight - 90;
+            canvas2.style.position = "absolute";
+            canvas2.style.left = 0;
+            $('#content').append(canvas2);
+            ctx2 = canvas2.getContext("2d");
+            ctx2.lineCap = "round";
+            ctx2.lineJoin = 'round';
+            ctx2.strokeStyle = color;
+            ctx2.globalAlpha = .5;
+        };
 
         var startbrush = function (e) {
 
@@ -364,18 +378,20 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var brushMouse = function () {
    
         //new canvas
-        var canvas2 = document.createElement('canvas');
-        canvas2.id = 'canvas2';
-        canvas2.width = window.innerWidth;
-        canvas2.height = window.innerHeight - 90;
-        canvas2.style.position = "absolute";
-        canvas2.style.left = 0;
-        $('#content').append(canvas2);
-        ctx2 = canvas2.getContext("2d");
-        ctx2.lineCap = "round";
-        ctx2.lineJoin = 'round';
-        ctx2.strokeStyle = color;
-        ctx2.globalAlpha = .5;
+        if (!($('#canvas2').length)) {
+            var canvas2 = document.createElement('canvas');
+            canvas2.id = 'canvas2';
+            canvas2.width = window.innerWidth;
+            canvas2.height = window.innerHeight - 90;
+            canvas2.style.position = "absolute";
+            canvas2.style.left = 0;
+            $('#content').append(canvas2);
+            ctx2 = canvas2.getContext("2d");
+            ctx2.lineCap = "round";
+            ctx2.lineJoin = 'round';
+            ctx2.strokeStyle = color;
+            ctx2.globalAlpha = .5;
+        };
 
         var clicked = 0;
 
@@ -651,5 +667,21 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     }
 
+
+    // Ugly hack to create an HTML canvas when the HTML partial view is loaded
+    // -----------------------------------------------------------------------
+    //define, resize, and insert canvas
+        document.getElementById("content").style.height = window.innerHeight - 90;
+        var canvas = '<canvas id="canvas" width="' + window.innerWidth + '" height="' + (window.innerHeight - 90) + '"></canvas>';
+        document.getElementById("content").innerHTML = canvas;
+    // setup canvas
+        ctx = document.getElementById("canvas").getContext("2d");
+        ctx.lineCap = "round";
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = color;
+        ctx.lineWidth = line_Width;
+    // setup to trigger drawing on mouse or touch
+        drawTouch();
+        drawMouse(); // only needed for testing
 
     });

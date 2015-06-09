@@ -5,60 +5,46 @@
     background-repeat: no-repeat;
     /*background-size: 1800px 100px; /* actual size at 640 - 2x */
     background-size: 900px 50px; /* actual size at 320 = 1x */
+    border:solid 2px transparent;
 
 }
 
 .svgicon.new {
     background-position: -1px -2px; /*This was trial and error*/
-    width: 22px; 
-    height: 30px;
+    width: 24px; 
+    height: 32px;
 }
 
 .svgicon.checkmark {
     background-position: -505px -1px; 
-    width: 26px; 
-    height: 30px;
+    width: 28px; 
+    height: 32px;
 }
-
 .svgicon.camera {
     background-position: -544px -2px; 
-    width: 26px; 
-    height: 30px;
+    width: 28px; 
+    height: 32px;
 }
-
 .svgicon.share {
     background-position: -626px -2px; 
-    width: 58px; 
-    height: 30px;
+    width: 60px; 
+    height: 32px;
 }
-
 .svgicon.pen {
     background-position: -200px -2px; 
-    width: 29px; 
-    height: 30px;
-}
-.svgicon.penselected {
-    background-position: -236px -4px; 
-    width: 42px; 
-    height: 42px;
-}
-.svgicon.brushselected {
-    background-position: -148px -4px; 
-    width: 42px; 
-    height: 42px;
+    width: 31px; 
+    height: 32px;
 }
 .svgicon.brush {
     background-position: -112px -2px; 
-    width: 28px; 
-    height: 30px;
-}
-.svgicon.eraserselected {
-    background-position: -148px -4px; 
-    width: 42px; 
-    height: 42px;
+    width: 30px; 
+    height: 32px;
 }
 .svgicon.eraser {
     background-position: -112px -2px; 
-    width: 28px; 
-    height: 30px;
+    width: 30px; 
+    height: 32px;
+}
+.selected {
+    border:2px solid #ddd;
 }

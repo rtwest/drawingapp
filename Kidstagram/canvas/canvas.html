@@ -1,14 +1,14 @@
 ﻿<!-- Canvas -->
 
     <!--Bootstrap3+Material class-->
-    <div class="navbar navbar-default" style="margin-bottom: 15px; z-index:10;background-color:transparent;overflow-x:auto;">
+    <div class="navbar navbar-default" style="padding-top: 8px; z-index:10;background-color:transparent;overflow-x:auto;">
         <!--overflow and margin used to enable up coverup/hide scrollbar-->
 
-        <div class="navbar-brand">
+        <!--<div class="navbar-brand">
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>{{ message }}
-        </div>
+        </div>-->
 
-        <div class="palette-case">
+        <div class="palette-case" style="width:488px">
 
             <!--Pick drawing tool-->
             <!--<div id="pen" style="float:left" ng-click="choosePen()" aria-label="select pen tool">
@@ -19,19 +19,17 @@
                 <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>eraser
             </div>-->
 
-            <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="choosePen()">
-                <div id="penicon" class="svgicon pen"></div>
-            </button>
-            <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseBrush()">
-                <div id="brushicon" class="svgicon pen"></div>
-            </button>
-            <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseEraser()">
-                <div id="erasericon" class="svgicon eraser"></div>
-            </button>
-
-            <!--Main controls-->
             <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="newCanvas()">
                 <div class="svgicon new"></div>
+            </button>
+            <button id="penicon" type="button" class="btn btn-default" style="box-shadow:none;" ng-click="choosePen()">
+                <div class="svgicon pen"></div>
+            </button>
+            <button id="brushicon" type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseBrush()">
+                <div class="svgicon pen"></div>
+            </button>
+            <button id="erasericon" type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseEraser()">
+                <div class="svgicon eraser"></div>
             </button>
             <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="saveImage()">
                 <div class="svgicon checkmark"></div>
@@ -45,10 +43,8 @@
         </div>
     </div>
 
-
-    <div id="content">
-        <p style="text-align:center">Loading Canvas...</p>
-    </div>
+    <!--HTML Canvas get inserted in here-->
+    <div id="content"></div>
 
     <div class="navbar navbar-fixed-bottom" style="background-color:transparent; overflow-x:auto; margin-bottom:-10px"> 
         <!--overflow and margin used to enable up coverup/hide scrollbar-->
@@ -74,7 +70,7 @@
     </div>
     <!--Pick size-->
     <div class="palette-case">
-        <div id="4" class="palette2" ng-click="selectSize($event)">4</div>
+        <div id="5" class="palette2" ng-click="selectSize($event)">5</div>
         <!--<div id="6" class="palette2" ng-click="selectSize($event)">3</div>-->
         <div id="12" class="palette2" ng-click="selectSize($event)">12</div>
         <!--<div id="18" class="palette2" ng-click="selectSize($event)">10</div>-->
