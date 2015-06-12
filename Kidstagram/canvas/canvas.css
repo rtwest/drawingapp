@@ -48,3 +48,13 @@
         .purple {background-color: #ae00ff;}
         .beige {background-color: #edc35e;}
         .drkbrown {background-color: #6b4e00;}
+
+#penicon {
+    border:solid 2px transparent;
+}
+#brushicon {
+    border:solid 2px transparent;
+}
+#erasericon {
+    border:solid 2px transparent;
+}

@@ -23,9 +23,9 @@
 //
 //
 //  TODO
+//  - Icons for pen size
 //  - Test Brush on Touch
-//  - Something jumping with button selected
-//  - !!!!!!!! Brush failing with .toDataUrl when 
+//  - Brush is beign drawn twice onto canvas and is darker.  Added conditional logic for detecting touch device and choose mouse or touch draw
 //  - BE MINIMAL
 //  - AUTO SAVE AS YOU GO
 //
@@ -50,22 +50,19 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var tool = 'pen'
     var x, y, lastx, lasty = 0;
     var backgroundImage = new Image;
+    var isTouch
 
-
-    //// Ugly hack to create an HTML canvas when the HTML partial view is loaded
-    //// -----------------------------------------------------------------------
-    ////define, resize, and insert canvas
-    //document.getElementById("content").style.height = window.innerHeight - 90;
-    //var canvas = '<canvas id="canvas" width="' + window.innerWidth + '" height="' + (window.innerHeight - 90) + '"></canvas>';
-    //document.getElementById("content").innerHTML = canvas;
-    //// setup canvas
-    //ctx = document.getElementById("canvas").getContext("2d");
-    //ctx.lineCap = "round";
-    //ctx.lineJoin = 'round';
-    //ctx.strokeStyle = color;
-    //ctx.lineWidth = line_Width;
-
-
+    // Test for touch device
+    // ---------------------
+    function isTouchDevice() {
+        return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
+    }
+    if (isTouchDevice() === true) {
+        //alert('Touch Device'); 
+        isTouch = 1;
+    } else {
+        //alert('Not a Touch Device');
+    }
 
 
     // Function to setup a new canvas for drawing
@@ -84,6 +81,9 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         // setup to trigger drawing on mouse or touch
         drawTouch();
         drawMouse(); // only needed for testing
+        $('#penicon').addClass('selected');
+        $('#brushicon').removeClass('selected');
+        $('#erasericon').removeClass('selected');
     };
 
     // For choosing the drawing tools
@@ -95,14 +95,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#penicon').addClass('selected');
         $('#brushicon').removeClass('selected');
         $('#erasericon').removeClass('selected');
-
-        //$("#penicon").fadeOut(1000, function () {
-        //    $(this).removeClass("pen");
-        //});
-        //$("#penicon").fadeIn(1000, function () {
-        //    $(this).addClass("penselected");
-        //});
-        //$('#brushicon').removeClass('brushelected').addClass('brush');
 
         // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
         if ($('#canvas2').length) {
@@ -127,8 +119,12 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     $scope.chooseBrush = function () {
         $('#canvas').off(); // reset event handler
-        brushTouch();
-        brushMouse(); // only needed for testing
+        if (isTouch == 1) {
+            brushTouch();
+        }
+        else {
+            brushMouse(); // only needed for testing
+        };
         $('#penicon').removeClass('selected');
         $('#brushicon').addClass('selected');
         $('#erasericon').removeClass('selected');
@@ -312,7 +308,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
         //new canvas
         if (!($('#canvas2').length)) {
-            var canvas2 = document.createElement('canvas');
+            canvas2 = document.createElement('canvas');
             canvas2.id = 'canvas2';
             canvas2.width = window.innerWidth;
             canvas2.height = window.innerHeight - 90;
@@ -379,7 +375,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
    
         //new canvas
         if (!($('#canvas2').length)) {
-            var canvas2 = document.createElement('canvas');
+            canvas2 = document.createElement('canvas');
             canvas2.id = 'canvas2';
             canvas2.width = window.innerWidth;
             canvas2.height = window.innerHeight - 90;
@@ -683,5 +679,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // setup to trigger drawing on mouse or touch
         drawTouch();
         drawMouse(); // only needed for testing
+        $('#penicon').addClass('selected');
+        $('#brushicon').removeClass('selected');
+        $('#erasericon').removeClass('selected');
 
     });

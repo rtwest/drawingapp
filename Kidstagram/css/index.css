@@ -5,8 +5,6 @@
     background-repeat: no-repeat;
     /*background-size: 1800px 100px; /* actual size at 640 - 2x */
     background-size: 900px 50px; /* actual size at 320 = 1x */
-    border:solid 2px transparent;
-
 }
 
 .svgicon.new {
@@ -46,5 +44,5 @@
     height: 32px;
 }
 .selected {
-    border:2px solid #ddd;
+    border:2px solid #ddd !important;
 }
