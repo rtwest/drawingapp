@@ -18,19 +18,20 @@
         .palette-case {
             width: 900px;
             margin: auto;
-            text-align: center;
+            /*text-align: center;*/
+            margin-bottom:10px;
             -webkit-overflow-scrolling: touch;
         }
         /*Not sure if this should go here global or inside an id or class*/
         ::-webkit-scrollbar { display: none; }
 
-        .palette, .palette2, .palette3 {
-            height: 36px;
-            width: 36px;
-            border-radius:18px;
+        .palette, .palette3 {
+            height: 40px;
+            width: 40px;
+            border-radius:20px;
             float: left;
             margin: 2px 6px 2px 6px;
-            border:3px solid transparent;
+            border:6px solid white;
         }
 
         .red {background-color: #c22;}
@@ -58,3 +59,39 @@
 #erasericon {
     border:solid 2px transparent;
 }
+
+.palette2{
+    height: 40px;
+    width: 40px;
+    border-radius:2px;
+    float: left;
+    margin: 2px 6px 2px 6px;
+    border:solid 2px transparent;
+}
+.pensize{
+    height: 40px;
+    width: 40px;
+    border-radius:20px;
+    float: left;
+    margin: 2px 6px 2px 6px;
+}
+.smallpen {
+    height: 5px;
+    width: 30px;
+    background-color: #000;
+    -webkit-transform: rotate(-45deg);
+}
+.mediumpen {
+    height: 12px;
+    width: 30px;
+    background-color: #000;
+    -webkit-transform: rotate(-45deg);
+}
+.largepen {
+    height: 20px;
+    width: 30px;
+    background-color: #000;
+    -webkit-transform: rotate(-45deg);
+}
+
+

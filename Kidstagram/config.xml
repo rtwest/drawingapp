@@ -1,19 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="com.rockitshop.cordovapushnotification" version="1.0.0.0" xmlns="http://www.w3.org/ns/widgets">
   <name>Kidstagram</name>
-  <description>
-    A blank project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, Windows, and Windows Phone.
-  </description>
-  <author href="http://cordova.io" email="dev@cordova.apache.org">
-    Apache Cordova Team
-  </author>
+  <description>Social drawing program for kids with parental controls</description>
+  <author href="http://cordova.io" email="dev@cordova.apache.org">Ryan West</author>
   <content src="index.html" />
   <access origin="https://service-poc.azure-mobile.net" />
   <access origin="http://rtwdevstorage.blob.core.windows.net" />
   <preference name="SplashScreen" value="screen" />
   <preference name="Orientation" value="portrait" />
   <preference name="Fullscreen" value="true" />
-  <preference name="DisallowOverscroll" value="true" />   <!--custom addition to prevent overscroll or bounce when view pulled down-->
+  <preference name="DisallowOverscroll" value="true" />  <!--Added this to prevent pulling down of whole page-->
   <vs:plugin name="com.msopentech.azure-mobile-services" version="0.1.2" />
   <vs:plugin name="org.apache.cordova.camera" version="0.3.0" />
   <vs:plugin name="org.apache.cordova.device" version="0.2.10" />

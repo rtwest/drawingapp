@@ -24,7 +24,7 @@
 //
 //  TODO
 //  - Icons for pen size
-//  - Test Brush on Touch
+//  - Test Brush on Touch.  Failed.  Switching from BrushTouch to BrushMouse had no change.
 //  - Brush is beign drawn twice onto canvas and is darker.  Added conditional logic for detecting touch device and choose mouse or touch draw
 //  - BE MINIMAL
 //  - AUTO SAVE AS YOU GO
@@ -119,12 +119,18 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     $scope.chooseBrush = function () {
         $('#canvas').off(); // reset event handler
-        if (isTouch == 1) {
-            brushTouch();
-        }
-        else {
-            brushMouse(); // only needed for testing
-        };
+
+        brushMouse();
+        //brushTouch(); // use for deploy to touch device
+
+        // use for web
+        //if (isTouch == 1) {
+        //    brushTouch();
+        //}
+        //else {
+        //    brushMouse(); // only needed for testing
+        //};
+
         $('#penicon').removeClass('selected');
         $('#brushicon').addClass('selected');
         $('#erasericon').removeClass('selected');
@@ -137,9 +143,9 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
         // toggle the UI for the selected color
         for (var i = 0; i < document.getElementsByClassName("palette").length; i++) {
-            document.getElementsByClassName("palette")[i].style.borderColor = "transparent";
+            document.getElementsByClassName("palette")[i].style.borderColor = "#fff";
         }
-        clickEvent.target.style.borderColor = "#fff";
+        clickEvent.target.style.borderColor = "transparent";
 
         color = window.getComputedStyle(clickEvent.target).backgroundColor; // set color to palette
         ctx.beginPath(); // start a new line
@@ -151,11 +157,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     $scope.selectSize = function (clickEvent) {
         $scope.clickEvent = globalService.simpleKeys(clickEvent); // helper function suggested by somebody
 
-        // toggle the UI for the selected size
-        for (var i = 0; i < document.getElementsByClassName("palette2").length; i++) {
-            document.getElementsByClassName("palette2")[i].style.borderColor = "transparent";
-        }
-        clickEvent.target.style.borderColor = "#fff";
+        $(".palette2").removeClass('selected');  //remove from all instances of .pensize
+        clickEvent.target.className += ' selected';
 
         size = clickEvent.target.id;  // !! This is the important part
         ctx.beginPath(); // start a new line

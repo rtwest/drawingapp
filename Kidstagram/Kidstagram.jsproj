@@ -248,6 +248,7 @@
     <Content Include="plugins\org.apache.cordova.inappbrowser\tests\tests.js" />
     <Content Include="plugins\org.apache.cordova.inappbrowser\www\inappbrowser.js" />
     <Content Include="plugins\org.apache.cordova.inappbrowser\www\windows8\InAppBrowserProxy.js" />
+    <Content Include="res\splash.svg" />
     <Content Include="scripts\ripples.js" />
     <Content Include="scripts\ui-bootstrap-tpls-0.11.0.min.js" />
     <Content Include="scripts\version.json" />

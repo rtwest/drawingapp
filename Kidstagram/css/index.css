@@ -6,11 +6,16 @@
     /*background-size: 1800px 100px; /* actual size at 640 - 2x */
     background-size: 900px 50px; /* actual size at 320 = 1x */
 }
-
+.svgiconbig {
+    background-image: url('../images/kidstagramicons.svg');
+    background-repeat: no-repeat;
+    /*background-size: 1800px 100px; /* actual size at 640 - 2x */
+    background-size: 1800px 100px; /* actual size at 320 = 1x */
+}
 .svgicon.new {
-    background-position: -1px -2px; /*This was trial and error*/
-    width: 24px; 
-    height: 32px;
+    background-position: -4px -3px; /*This was trial and error*/
+    width: 28px; 
+    height: 37px;
 }
 
 .svgicon.checkmark {
@@ -34,8 +39,8 @@
     height: 32px;
 }
 .svgicon.brush {
-    background-position: -112px -2px; 
-    width: 30px; 
+    background-position: -155px -2px; 
+    width: 32px; 
     height: 32px;
 }
 .svgicon.eraser {
