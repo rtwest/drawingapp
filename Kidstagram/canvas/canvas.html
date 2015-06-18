@@ -8,40 +8,50 @@
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>{{ message }}
         </div>-->
 
+        <!--Comman Toolbar-->
         <div class="palette-case" style="width:498px">
-
-            <!--Pick drawing tool-->
-            <!--<div id="pen" style="float:left" ng-click="choosePen()" aria-label="select pen tool">
-                <div class="svgicon new"></div>
-                <div>pen</div>
-            </div>
-            <div id="eraser" class="palette3" ng-click="chooseEraser()" aria-label="select eraser tool">
-                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>eraser
-            </div>-->
-
             <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="newCanvas()">
                 <div class="svgicon new"></div>
             </button>
-            <button id="penicon" type="button" class="btn btn-default" style="box-shadow:none;" ng-click="choosePen()">
-                <div class="svgicon pen"></div>
+        </div>
+
+        <!--Drawing Toolbar--> 
+        <div class="palette-case" style="width:498px">
+
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="choosePen1()">
+                <div id="penicon1" class="svgicon pen1"></div>
             </button>
-            <button id="brushicon" type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseBrush()">
-                <div class="svgicon brush"></div>
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="choosePen2()">
+                <div id="penicon2" class="svgicon pen2"></div>
             </button>
-            <button id="erasericon" type="button" class="btn btn-default" style="box-shadow:none;" ng-click="chooseEraser()">
-                <div class="svgicon eraser"></div>
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="choosePen3()">
+                <div id="penicon3" class="svgicon pen3"></div>
+            </button>
+            
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseEraser()">
+                <div id="erasericon" class="svgicon eraser"></div>
+            </button>
+
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseBrush1()">
+                <div id="brushicon1" class="svgicon brush1"></div>
+            </button>
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseBrush2()">
+                <div id="brushicon2" class="svgicon brush2"></div>
+            </button>
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseBrush3()">
+                <div id="brushicon3" class="svgicon brush3"></div>
             </button>
             <!--<button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="saveImage()">
-                <div class="svgicon checkmark"></div>
-            </button>
-            <button type="button" class="btn btn-secondary" style="box-shadow:none;" ng-click="getPicture()">
-                <div class="svgicon camera"></div>
-            </button>
-            <button type="button" class="btn btn-default" style="box-shadow:none" ng-click="uploadImage()">
-                <div class="svgicon share"></div>
-            </button>-->
+            <div class="svgicon checkmark"></div>
+        </button>
+        <button type="button" class="btn btn-secondary" style="box-shadow:none;" ng-click="getPicture()">
+            <div class="svgicon camera"></div>
+        </button>
+        <button type="button" class="btn btn-default" style="box-shadow:none" ng-click="uploadImage()">
+            <div class="svgicon share"></div>
+        </button>-->
         </div>
-    </div>
+     </div>   
 
     <!--HTML Canvas get inserted in here-->
     <div id="content"></div>
@@ -51,31 +61,24 @@
 
     <!--Pick colors-->
     <div class="palette-case">
-        <div class="palette red" ng-click="selectColor($event)"></div>
-        <div class="palette blue" ng-click="selectColor($event)"></div>
-        <div class="palette green" ng-click="selectColor($event)"></div>
         <div class="palette black" ng-click="selectColor($event)"></div>
-        <div class="palette beige" ng-click="selectColor($event)"></div>
+        <div class="palette grey" ng-click="selectColor($event)"></div>
         <div class="palette yellow" ng-click="selectColor($event)"></div>
         <div class="palette orange" ng-click="selectColor($event)"></div>
-        <div class="palette brown" ng-click="selectColor($event)"></div>
-        <div class="palette drkbrown" ng-click="selectColor($event)"></div>
-        <div class="palette grey" ng-click="selectColor($event)"></div>
-        <div class="palette ltblue" ng-click="selectColor($event)"></div>
-        <div class="palette ltgreen" ng-click="selectColor($event)"></div>
+        <div class="palette red" ng-click="selectColor($event)"></div>
         <div class="palette pink" ng-click="selectColor($event)"></div>
         <div class="palette purple" ng-click="selectColor($event)"></div>
+        <div class="palette blue" ng-click="selectColor($event)"></div>
+        <div class="palette ltblue" ng-click="selectColor($event)"></div>
+        <div class="palette ltgreen" ng-click="selectColor($event)"></div>
+        <div class="palette green" ng-click="selectColor($event)"></div>
+        <div class="palette beige" ng-click="selectColor($event)"></div>
+        <div class="palette brown" ng-click="selectColor($event)"></div>
+        <div class="palette drkbrown" ng-click="selectColor($event)"></div>
         <div class="palette white" ng-click="selectColor($event)"></div>
         <div style="clear:both"></div>
     </div>
 
-    <!--Pick size-->
-    <div class="palette-case">
-        <div id="5" class="palette2 smallpen" ng-click="selectSize($event)"></div>
-        <div id="12" class="palette2 mediumpen" ng-click="selectSize($event)"></div>
-        <div id="30" class="palette2 largepen" ng-click="selectSize($event)"></div>
-        <div style="clear:both"></div>
-    </div>
 </div>
 
     <img id="imagegoeshere" style="position:absolute;top:600px" />

@@ -25,13 +25,12 @@
         /*Not sure if this should go here global or inside an id or class*/
         ::-webkit-scrollbar { display: none; }
 
-        .palette, .palette3 {
-            height: 40px;
-            width: 40px;
-            border-radius:20px;
+        .palette {
+            height: 50px;
+            width: 50px;
+            border-radius:25px;
             float: left;
-            margin: 2px 6px 2px 6px;
-            border:6px solid white;
+            border:10px solid white;
         }
 
         .red {background-color: #c22;}
@@ -50,48 +49,14 @@
         .beige {background-color: #edc35e;}
         .drkbrown {background-color: #6b4e00;}
 
-#penicon {
-    border:solid 2px transparent;
-}
-#brushicon {
-    border:solid 2px transparent;
-}
-#erasericon {
-    border:solid 2px transparent;
-}
-
-.palette2{
+/*.palette2{
     height: 40px;
     width: 40px;
     border-radius:2px;
     float: left;
     margin: 2px 6px 2px 6px;
     border:solid 2px transparent;
-}
-.pensize{
-    height: 40px;
-    width: 40px;
-    border-radius:20px;
-    float: left;
-    margin: 2px 6px 2px 6px;
-}
-.smallpen {
-    height: 5px;
-    width: 30px;
-    background-color: #000;
-    -webkit-transform: rotate(-45deg);
-}
-.mediumpen {
-    height: 12px;
-    width: 30px;
-    background-color: #000;
-    -webkit-transform: rotate(-45deg);
-}
-.largepen {
-    height: 20px;
-    width: 30px;
-    background-color: #000;
-    -webkit-transform: rotate(-45deg);
-}
+}*/
+
 
 

@@ -3,17 +3,12 @@
 .svgicon {
     background-image: url('../images/kidstagramicons.svg');
     background-repeat: no-repeat;
-    /*background-size: 1800px 100px; /* actual size at 640 - 2x */
-    background-size: 900px 50px; /* actual size at 320 = 1x */
+    /*background-size: 2600px 100px; /* actual size at 640 - 2x */
+    background-size: 1300px 50px; /* actual size at 320 = 1x */
 }
-.svgiconbig {
-    background-image: url('../images/kidstagramicons.svg');
-    background-repeat: no-repeat;
-    /*background-size: 1800px 100px; /* actual size at 640 - 2x */
-    background-size: 1800px 100px; /* actual size at 320 = 1x */
-}
+
 .svgicon.new {
-    background-position: -4px -3px; /*This was trial and error*/
+    background-position: -24px -3px; /*This was trial and error*/
     width: 28px; 
     height: 37px;
 }
@@ -33,21 +28,74 @@
     width: 60px; 
     height: 32px;
 }
-.svgicon.pen {
-    background-position: -200px -2px; 
-    width: 31px; 
-    height: 32px;
+.svgicon.pen1select {
+    background-position: -717px -8px !important; 
+    width: 35px !important; 
+    height: 35px !important;
 }
-.svgicon.brush {
-    background-position: -155px -2px; 
-    width: 32px; 
-    height: 32px;
+.svgicon.pen2select {
+    background-position: -754px -6px !important; 
+    width: 37px !important; 
+    height: 37px !important;
+}
+.svgicon.pen3select {
+    background-position: -794px -3px !important; 
+    width: 40px !important; 
+    height: 40px !important;
+}
+.svgicon.pen1 {
+    background-position: -973px -7px; 
+    width: 37px; 
+    height: 37px;
+}
+.svgicon.pen2 {
+    background-position: -1015px -4px; 
+    width: 38px; 
+    height: 40px;
+}
+.svgicon.pen3 {
+    background-position: -1056px -3px; 
+    width: 40px; 
+    height: 40px;
+}
+.svgicon.brush1select {
+    background-position: -834px -8px !important; 
+    width: 36px !important; 
+    height: 37px !important;
+}
+.svgicon.brush2select {
+    background-position: -876px -8px !important; 
+    width: 41px !important; 
+    height: 35px !important;
+}
+.svgicon.brush3select {
+    background-position: -920px 0px !important; 
+    width: 46px !important; 
+    height: 42px !important;
+}
+.svgicon.brush1 {
+    background-position: -1145px -8px; 
+    width: 39px; 
+    height: 37px;
+}
+.svgicon.brush2 {
+    background-position: -1184px -7px; 
+    width: 47px; 
+    height: 36px;
+}
+.svgicon.brush3 {
+    background-position: -1230px -1px; 
+    width: 49px; 
+    height: 42px;
+}
+.svgicon.eraserselect {
+    background-position: -132px -2px !important; 
+    width: 30px !important; 
+    height: 32px !important;
 }
 .svgicon.eraser {
-    background-position: -112px -2px; 
+    background-position: -1103px -10px; 
     width: 30px; 
     height: 32px;
 }
-.selected {
-    border:2px solid #ddd !important;
-}
+

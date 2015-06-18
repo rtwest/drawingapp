@@ -23,9 +23,9 @@
 //
 //
 //  TODO
-//  - Icons for pen size
 //  - Test Brush on Touch.  Failed.  Switching from BrushTouch to BrushMouse had no change.
-//  - Brush is beign drawn twice onto canvas and is darker.  Added conditional logic for detecting touch device and choose mouse or touch draw
+//  - picking color after eraser, should default to pen - or blank out color
+//  - show color picked by pens
 //  - BE MINIMAL
 //  - AUTO SAVE AS YOU GO
 //
@@ -52,7 +52,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var backgroundImage = new Image;
     var isTouch
 
-    // Test for touch device
+    // Test for touch device - NOT USED
     // ---------------------
     function isTouchDevice() {
         return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
@@ -81,48 +81,73 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         // setup to trigger drawing on mouse or touch
         drawTouch();
         drawMouse(); // only needed for testing
-        $('#penicon').addClass('selected');
-        $('#brushicon').removeClass('selected');
-        $('#erasericon').removeClass('selected');
+        resetdrawingtoolbar();
+        $('#penicon1').addClass('pen1select');
     };
 
     // For choosing the drawing tools
     // ------------------------------------------
-    $scope.choosePen = function () {
-        $('#canvas').off(); // reset event handler
+    $scope.choosePen1 = function () {
+        resetdrawingtoolbar();
         drawTouch();
         drawMouse(); // only needed for testing
-        $('#penicon').addClass('selected');
-        $('#brushicon').removeClass('selected');
-        $('#erasericon').removeClass('selected');
-
+        $('#penicon1').addClass('pen1select');
+        size = 5;
+        ctx.beginPath(); // start a new line
+        ctx.lineWidth = size; // set the new line size
         // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
         if ($('#canvas2').length) {
             $('#canvas2').remove();
         };
-        
-
+    };
+    $scope.choosePen2 = function () {
+        resetdrawingtoolbar();
+        drawTouch();
+        drawMouse(); // only needed for testing
+        $('#penicon2').addClass('pen2select');
+        size = 12;
+        ctx.beginPath(); // start a new line
+        ctx.lineWidth = size; // set the new line size
+        // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
+        if ($('#canvas2').length) {
+            $('#canvas2').remove();
+        };
+    }; $scope.choosePen3 = function () {
+        resetdrawingtoolbar();
+        drawTouch();
+        drawMouse(); // only needed for testing
+        $('#penicon3').addClass('pen3select');
+        size = 30;
+        ctx.beginPath(); // start a new line
+        ctx.lineWidth = size; // set the new line size
+        // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
+        if ($('#canvas2').length) {
+            $('#canvas2').remove();
+        };
     };
     $scope.chooseEraser = function () {
-        $('#canvas').off(); // reset event handler
-        eraseTouch(); 
+        resetdrawingtoolbar();
+        eraseTouch();
         eraseMouse(); // for testing only
-        $('#penicon').removeClass('selected');
-        $('#brushicon').removeClass('selected');
-        $('#erasericon').addClass('selected');
-
+        $('#erasericon').addClass('eraserselect');
         // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
         if ($('#canvas2').length) {
             $('#canvas2').remove();
         };
     };
 
-    $scope.chooseBrush = function () {
-        $('#canvas').off(); // reset event handler
-
+    $scope.chooseBrush1 = function () {
+        resetdrawingtoolbar();
+        if ($('#canvas2').length) {
+            $('#canvas2').remove();
+        };
         brushMouse();
         //brushTouch(); // use for deploy to touch device
 
+        $('#brushicon1').addClass('brush1select');
+        size = 5;
+        ctx.beginPath(); // start a new line
+        ctx.lineWidth = size; // set the new line size
         // use for web
         //if (isTouch == 1) {
         //    brushTouch();
@@ -130,10 +155,30 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         //else {
         //    brushMouse(); // only needed for testing
         //};
-
-        $('#penicon').removeClass('selected');
-        $('#brushicon').addClass('selected');
-        $('#erasericon').removeClass('selected');
+    };
+    $scope.chooseBrush2 = function () {
+        resetdrawingtoolbar();
+        if ($('#canvas2').length) {
+            $('#canvas2').remove();
+        };
+        brushMouse();
+        //brushTouch(); // use for deploy to touch device
+        $('#brushicon2').addClass('brush2select');
+        size = 12;
+        ctx.beginPath(); // start a new line
+        ctx.lineWidth = size; // set the new line size
+    };
+    $scope.chooseBrush3 = function () {
+        resetdrawingtoolbar();
+        if ($('#canvas2').length) {
+            $('#canvas2').remove();
+        };
+        brushMouse();
+        //brushTouch(); // use for deploy to touch device
+        $('#brushicon3').addClass('brush3select');
+        size = 30;
+        ctx.beginPath(); // start a new line
+        ctx.lineWidth = size; // set the new line size
     };
 
     // For choosing the color
@@ -154,16 +199,31 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     // For choosing the brush size
     // ------------------------------------------
-    $scope.selectSize = function (clickEvent) {
-        $scope.clickEvent = globalService.simpleKeys(clickEvent); // helper function suggested by somebody
+    //$scope.selectSize = function (clickEvent) {
+    //    $scope.clickEvent = globalService.simpleKeys(clickEvent); // helper function suggested by somebody
 
-        $(".palette2").removeClass('selected');  //remove from all instances of .pensize
-        clickEvent.target.className += ' selected';
+    //    $(".palette2").removeClass('selected');  //remove from all instances of .pensize
+    //    clickEvent.target.className += ' selected';
 
-        size = clickEvent.target.id;  // !! This is the important part
-        ctx.beginPath(); // start a new line
-        ctx.lineWidth = size; // set the new line size
+    //    size = clickEvent.target.id;  // !! This is the important part
+    //    ctx.beginPath(); // start a new line
+    //    ctx.lineWidth = size; // set the new line size
+    //};
+
+
+    resetdrawingtoolbar = function () {
+        $('#canvas').off(); // reset event handler
+
+        $('#erasericon').removeClass('eraserselect');
+        $('#penicon1').removeClass('pen1select');
+        $('#penicon2').removeClass('pen2select');
+        $('#penicon3').removeClass('pen3select');
+        $('#brushicon3').removeClass('brush3select');
+        $('#brushicon2').removeClass('brush2select');
+        $('#brushicon1').removeClass('brush1select');
     };
+
+
 
     // prototype to	start drawing on TOUCH using canvas moveTo and lineTo
     // ------------------------------------------
@@ -377,7 +437,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var brushMouse = function () {
    
         //new canvas
-        if (!($('#canvas2').length)) {
+        //if (!($('#canvas2').length)) {
             canvas2 = document.createElement('canvas');
             canvas2.id = 'canvas2';
             canvas2.width = window.innerWidth;
@@ -390,7 +450,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx2.lineJoin = 'round';
             ctx2.strokeStyle = color;
             ctx2.globalAlpha = .5;
-        };
+        //};
 
         var clicked = 0;
 
@@ -682,8 +742,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // setup to trigger drawing on mouse or touch
         drawTouch();
         drawMouse(); // only needed for testing
-        $('#penicon').addClass('selected');
-        $('#brushicon').removeClass('selected');
-        $('#erasericon').removeClass('selected');
+        $('#penicon1').addClass('pen1select');
+        $('.black').css("borderColor", "transparent");
 
     });
