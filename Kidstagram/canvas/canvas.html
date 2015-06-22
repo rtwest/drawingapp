@@ -1,7 +1,7 @@
 ﻿<!-- Canvas -->
 
     <!--Bootstrap3+Material class-->
-    <div class="navbar navbar-default" style="padding-top:20px; z-index:10;background-color:transparent;overflow-x:auto;">
+    <div class="navbar navbar-default" style="padding-top:20px; z-index:10;background-color:transparent;overflow-x:auto;box-shadow:none;-webkit-box-shadow:none;">
         <!--overflow and margin used to enable up coverup/hide scrollbar-->
 
         <!--<div class="navbar-brand">
@@ -9,36 +9,36 @@
         </div>-->
 
         <!--Comman Toolbar-->
-        <div class="palette-case" style="width:498px">
+        <div class="palette-case" style="width:320px">
             <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="newCanvas()">
                 <div class="svgicon new"></div>
             </button>
         </div>
 
         <!--Drawing Toolbar--> 
-        <div class="palette-case" style="width:498px">
+        <div class="palette-case" style="width:360px">
 
-            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="choosePen1()">
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:0px 0px 0px 16px" ng-click="choosePen1()">
                 <div id="penicon1" class="svgicon pen1"></div>
             </button>
-            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="choosePen2()">
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:0px" ng-click="choosePen2()">
                 <div id="penicon2" class="svgicon pen2"></div>
             </button>
-            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="choosePen3()">
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:0px" ng-click="choosePen3()">
                 <div id="penicon3" class="svgicon pen3"></div>
             </button>
             
-            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseEraser()">
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:0px 10px" ng-click="chooseEraser()">
                 <div id="erasericon" class="svgicon eraser"></div>
             </button>
 
-            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseBrush1()">
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:0px" ng-click="chooseBrush1()">
                 <div id="brushicon1" class="svgicon brush1"></div>
             </button>
-            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseBrush2()">
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:0px" ng-click="chooseBrush2()">
                 <div id="brushicon2" class="svgicon brush2"></div>
             </button>
-            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:2px 5px" ng-click="chooseBrush3()">
+            <button  type="button" class="btn btn-default" style="box-shadow:none;padding:0px" ng-click="chooseBrush3()">
                 <div id="brushicon3" class="svgicon brush3"></div>
             </button>
             <!--<button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="saveImage()">

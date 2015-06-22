@@ -1,0 +1,18 @@
+﻿Control Panel / Parent's view
+-----------------------------
+Need to see
+	Kid ID
+	Kid ID (attached)
+	data object (pictures) with Kid ID 
+	data object (pictures) with attached Kid ID
+	Parent ID
+
+
+
+Tables
+----------
+parent_id, firstname, lastname, emailaddress
+kid_id, nickname, parent_id -- friends?????
+picture_id, kid_id
+comment_id, from_kid_id, picutre_id, comment_content
+request_id, from_id, to_id

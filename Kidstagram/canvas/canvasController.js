@@ -23,9 +23,8 @@
 //
 //
 //  TODO
+//
 //  - Test Brush on Touch.  Failed.  Switching from BrushTouch to BrushMouse had no change.
-//  - picking color after eraser, should default to pen - or blank out color
-//  - show color picked by pens
 //  - BE MINIMAL
 //  - AUTO SAVE AS YOU GO
 //
@@ -69,8 +68,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // ------------------------------------------
     $scope.newCanvas = function () {
         //define, resize, and insert canvas
-        document.getElementById("content").style.height = window.innerHeight - 90;
-        var canvas = '<canvas id="canvas" width="' + window.innerWidth + '" height="' + (window.innerHeight - 90) + '"></canvas>';
+        document.getElementById("content").style.height = window.innerHeight - 200;
+        var canvas = '<canvas id="canvas" width="' + window.innerWidth + '" height="' + (window.innerHeight - 200) + '"></canvas>';
         document.getElementById("content").innerHTML = canvas;
         // setup canvas
         ctx = document.getElementById("canvas").getContext("2d");
@@ -145,7 +144,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         //brushTouch(); // use for deploy to touch device
 
         $('#brushicon1').addClass('brush1select');
-        size = 5;
+        size = 8;
         ctx.beginPath(); // start a new line
         ctx.lineWidth = size; // set the new line size
         // use for web
@@ -164,7 +163,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         brushMouse();
         //brushTouch(); // use for deploy to touch device
         $('#brushicon2').addClass('brush2select');
-        size = 12;
+        size = 19;
         ctx.beginPath(); // start a new line
         ctx.lineWidth = size; // set the new line size
     };
@@ -176,7 +175,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         brushMouse();
         //brushTouch(); // use for deploy to touch device
         $('#brushicon3').addClass('brush3select');
-        size = 30;
+        size = 40;
         ctx.beginPath(); // start a new line
         ctx.lineWidth = size; // set the new line size
     };
@@ -195,6 +194,12 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         color = window.getComputedStyle(clickEvent.target).backgroundColor; // set color to palette
         ctx.beginPath(); // start a new line
         ctx.strokeStyle = color; // set the new line color
+
+        ////if eraser selected then pick the pen
+        //if (line_width == 18) { // hack because the erase line width is 18
+        //    // select icon
+        //    // run drawmouse and drawtouch
+        //};
     };
 
     // For choosing the brush size
@@ -231,7 +236,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         ctx.lineWidth = size;
         var start = function (e) {
             x = e.originalEvent.changedTouches[0].pageX;
-            y = e.originalEvent.changedTouches[0].pageY - 44;
+            y = e.originalEvent.changedTouches[0].pageY - 130; // 130 came from trial and error
             ctx.beginPath();
             ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
             ctx.moveTo(x, y);
@@ -245,7 +250,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
             ctx.moveTo(x, y);
             x = e.originalEvent.changedTouches[0].pageX;
-            y = e.originalEvent.changedTouches[0].pageY - 44;
+            y = e.originalEvent.changedTouches[0].pageY - 130;
             ctx.lineTo(x, y);
             ctx.closePath();
             ctx.strokeStyle = color;
@@ -267,7 +272,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx.beginPath();
             ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
             x = e.pageX;
-            y = e.pageY - 44;
+            y = e.pageY - 130;
             ctx.moveTo(x, y);
             // make a dot on tap
             ctx.arc(x, y, size/1.9, 0, 2 * Math.PI, false);
@@ -281,7 +286,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 lastx = x;
                 lasty = y;
                 x = e.pageX;
-                y = e.pageY - 44;
+                y = e.pageY - 130;
                 ctx.moveTo(lastx, lasty);
                 ctx.lineTo(x, y);
                 //ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
@@ -306,7 +311,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         ctx.lineWidth = 18;
         var starteraser = function (e) {
             x = e.originalEvent.changedTouches[0].pageX;
-            y = e.originalEvent.changedTouches[0].pageY - 44;
+            y = e.originalEvent.changedTouches[0].pageY - 130;
             ctx.beginPath();
             ctx.globalCompositeOperation = 'destination-out'; // reset this back to drawing
             ctx.moveTo(x, y);
@@ -321,7 +326,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx.strokeStyle = 'rgba(0,0,0,1)';
             ctx.moveTo(x, y);
             x = e.originalEvent.changedTouches[0].pageX;
-            y = e.originalEvent.changedTouches[0].pageY - 44;
+            y = e.originalEvent.changedTouches[0].pageY - 130;
             ctx.lineTo(x, y);
             ctx.closePath();
             ctx.stroke();
@@ -339,7 +344,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             clicked2 = 1;
             ctx.beginPath();
             x = e.pageX;
-            y = e.pageY - 44;
+            y = e.pageY - 130;
             ctx.moveTo(x, y);
             ctx.globalCompositeOperation = 'destination-out';
             ctx.strokeStyle = 'rgba(0,0,0,1)';
@@ -351,7 +356,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 ctx.strokeStyle = 'rgba(0,0,0,1)';
                 ctx.moveTo(x, y);
                 x = e.pageX;
-                y = e.pageY - 44;
+                y = e.pageY - 130;
                 ctx.lineTo(x, y);
                 ctx.closePath();
                 ctx.stroke();
@@ -393,7 +398,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx2.beginPath();
             ctx2.globalCompositeOperation = 'destination-atop';
             x = e.pageX;
-            y = e.pageY - 44;
+            y = e.pageY - 130;
             ctx2.moveTo(x, y);
             // make a dot on tap
             ctx2.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
@@ -407,7 +412,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 lastx = x;
                 lasty = y;
                 x = e.pageX;
-                y = e.pageY - 44;
+                y = e.pageY - 130;
                 ctx2.moveTo(lastx, lasty);
                 ctx2.lineTo(x, y);
                 ctx2.closePath();
@@ -441,7 +446,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             canvas2 = document.createElement('canvas');
             canvas2.id = 'canvas2';
             canvas2.width = window.innerWidth;
-            canvas2.height = window.innerHeight - 90;
+            canvas2.height = window.innerHeight - 130;
             canvas2.style.position = "absolute";
             canvas2.style.left = 0;
             $('#content').append(canvas2);
@@ -463,7 +468,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx2.beginPath();
             ctx2.globalCompositeOperation = 'destination-atop';
             x = e.pageX;
-            y = e.pageY - 44;
+            y = e.pageY - 130;
             ctx2.moveTo(x, y);
             // make a dot on tap
             ctx2.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
@@ -477,7 +482,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 lastx = x;
                 lasty = y;
                 x = e.pageX;
-                y = e.pageY - 44;
+                y = e.pageY - 130;
                 ctx2.moveTo(lastx, lasty);
                 ctx2.lineTo(x, y);
                 ctx2.closePath();
@@ -730,8 +735,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // Ugly hack to create an HTML canvas when the HTML partial view is loaded
     // -----------------------------------------------------------------------
     //define, resize, and insert canvas
-        document.getElementById("content").style.height = window.innerHeight - 90;
-        var canvas = '<canvas id="canvas" width="' + window.innerWidth + '" height="' + (window.innerHeight - 90) + '"></canvas>';
+        document.getElementById("content").style.height = window.innerHeight - 200;
+        var canvas = '<canvas id="canvas" width="' + window.innerWidth + '" height="' + (window.innerHeight - 200) + '"></canvas>';
         document.getElementById("content").innerHTML = canvas;
     // setup canvas
         ctx = document.getElementById("canvas").getContext("2d");

@@ -103,6 +103,7 @@
     <Content Include="canvas\megapix-image.js" />
     <Content Include="canvas\megapix-image.test.js" />
     <Content Include="images\kidstagramicons.svg" />
+    <Content Include="Notes.txt" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\.fetch.json" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\LICENSE" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\package.json" />
