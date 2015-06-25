@@ -2,9 +2,9 @@
 -----------------------------
 Need to see
 	Kid ID
-	Kid ID (attached)
+	Kid ID (friends)
 	data object (pictures) with Kid ID 
-	data object (pictures) with attached Kid ID
+	data object (pictures) with frined Kid ID
 	Parent ID
 
 

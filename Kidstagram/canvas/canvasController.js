@@ -44,7 +44,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     catch (e) {
         console.log("Retrieve failed: " + e);
     };
-    var ctx, color = "#000";
+    var ctx, ctx2, color = "#000";
     var line_Width, size = 5;
     var tool = 'pen'
     var x, y, lastx, lasty = 0;
@@ -89,7 +89,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     $scope.choosePen1 = function () {
         resetdrawingtoolbar();
         drawTouch();
-        drawMouse(); // only needed for testing
+        //drawMouse(); // only needed for testing
         $('#penicon1').addClass('pen1select');
         size = 5;
         ctx.beginPath(); // start a new line
@@ -102,7 +102,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     $scope.choosePen2 = function () {
         resetdrawingtoolbar();
         drawTouch();
-        drawMouse(); // only needed for testing
+        //drawMouse(); // only needed for testing
         $('#penicon2').addClass('pen2select');
         size = 12;
         ctx.beginPath(); // start a new line
@@ -114,7 +114,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     }; $scope.choosePen3 = function () {
         resetdrawingtoolbar();
         drawTouch();
-        drawMouse(); // only needed for testing
+        //drawMouse(); // only needed for testing
         $('#penicon3').addClass('pen3select');
         size = 30;
         ctx.beginPath(); // start a new line
@@ -127,7 +127,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     $scope.chooseEraser = function () {
         resetdrawingtoolbar();
         eraseTouch();
-        eraseMouse(); // for testing only
+        //eraseMouse(); // for testing only
         $('#erasericon').addClass('eraserselect');
         // if brush was selected and canvas is there, draw canvas2 down on original canvas and remove canvas2
         if ($('#canvas2').length) {
@@ -140,44 +140,41 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         if ($('#canvas2').length) {
             $('#canvas2').remove();
         };
-        brushMouse();
-        //brushTouch(); // use for deploy to touch device
+        //brushMouse();
+        brushTouch(); // use for deploy to touch device
 
         $('#brushicon1').addClass('brush1select');
         size = 8;
-        ctx.beginPath(); // start a new line
-        ctx.lineWidth = size; // set the new line size
+
         // use for web
         //if (isTouch == 1) {
         //    brushTouch();
         //}
-        //else {
-        //    brushMouse(); // only needed for testing
-        //};
+
     };
     $scope.chooseBrush2 = function () {
         resetdrawingtoolbar();
         if ($('#canvas2').length) {
             $('#canvas2').remove();
         };
-        brushMouse();
-        //brushTouch(); // use for deploy to touch device
+        //brushMouse();
+        brushTouch(); // use for deploy to touch device
         $('#brushicon2').addClass('brush2select');
-        size = 19;
-        ctx.beginPath(); // start a new line
-        ctx.lineWidth = size; // set the new line size
+        size = 18;
+        //ctx2.beginPath(); // start a new line
+        //ctx2.lineWidth = size; // set the new line size
     };
     $scope.chooseBrush3 = function () {
         resetdrawingtoolbar();
         if ($('#canvas2').length) {
             $('#canvas2').remove();
         };
-        brushMouse();
-        //brushTouch(); // use for deploy to touch device
+        //brushMouse();
+        brushTouch(); // use for deploy to touch device
         $('#brushicon3').addClass('brush3select');
         size = 40;
-        ctx.beginPath(); // start a new line
-        ctx.lineWidth = size; // set the new line size
+        //ctx2.beginPath(); // start a new line
+        //ctx2.lineWidth = size; // set the new line size
     };
 
     // For choosing the color
@@ -218,6 +215,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     resetdrawingtoolbar = function () {
         $('#canvas').off(); // reset event handler
+        $('#canvas2').off();
 
         $('#erasericon').removeClass('eraserselect');
         $('#penicon1').removeClass('pen1select');
@@ -387,18 +385,16 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx2.lineCap = "round";
             ctx2.lineJoin = 'round';
             ctx2.strokeStyle = color;
+            ctx2.lineWidth = size;
             ctx2.globalAlpha = .5;
         };
 
         var startbrush = function (e) {
-
-            ctx2.lineWidth = size;
             $('#canvas2').css('opacity', '1');  //show the 2nd canvas
-
+            x = e.originalEvent.changedTouches[0].pageX;
+            y = e.originalEvent.changedTouches[0].pageY - 130; // 130 came from trial and error
             ctx2.beginPath();
             ctx2.globalCompositeOperation = 'destination-atop';
-            x = e.pageX;
-            y = e.pageY - 130;
             ctx2.moveTo(x, y);
             // make a dot on tap
             ctx2.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
@@ -408,20 +404,18 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx2.globalCompositeOperation = 'destination-atop';
         };
         var movebrush = function (e) {
-                e.preventDefault();
-                lastx = x;
-                lasty = y;
-                x = e.pageX;
-                y = e.pageY - 130;
-                ctx2.moveTo(lastx, lasty);
-                ctx2.lineTo(x, y);
-                ctx2.closePath();
-                ctx2.strokeStyle = color;
-                ctx2.stroke();
+            e.preventDefault();
+            ctx2.moveTo(x, y);
+            x = e.originalEvent.changedTouches[0].pageX;
+            y = e.originalEvent.changedTouches[0].pageY - 130;
+            ctx2.lineTo(x, y);
+            ctx2.lineWidth = size;
+            ctx2.closePath();
+            ctx2.strokeStyle = color;
+            ctx2.stroke();
         };
         var stopbrush = function (e) {
             e.preventDefault;
-
             // draw canvas2 down on original canvas and remove canvas2
             var img = new Image();
             img.src = canvas2.toDataURL();
@@ -453,6 +447,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx2 = canvas2.getContext("2d");
             ctx2.lineCap = "round";
             ctx2.lineJoin = 'round';
+            ctx2.lineWidth = size;
             ctx2.strokeStyle = color;
             ctx2.globalAlpha = .5;
         //};
@@ -483,6 +478,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 lasty = y;
                 x = e.pageX;
                 y = e.pageY - 130;
+                ctx2.lineWidth = size;
                 ctx2.moveTo(lastx, lasty);
                 ctx2.lineTo(x, y);
                 ctx2.closePath();
