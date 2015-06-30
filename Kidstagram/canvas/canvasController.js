@@ -48,7 +48,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var line_Width, size = 5;
     var tool = 'pen'
     var x, y, lastx, lasty = 0;
-    var backgroundImage = new Image;
+    var backgroundImage = new Image();
+    //var Canvas2Image = new Image();
     var isTouch
 
     // Test for touch device - NOT USED
@@ -79,7 +80,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         ctx.lineWidth = line_Width;
         // setup to trigger drawing on mouse or touch
         drawTouch();
-        drawMouse(); // only needed for testing
+        //drawMouse(); // only needed for testing
         resetdrawingtoolbar();
         $('#penicon1').addClass('pen1select');
     };
@@ -231,7 +232,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // prototype to	start drawing on TOUCH using canvas moveTo and lineTo
     // ------------------------------------------
     var drawTouch = function () {
-        ctx.lineWidth = size;
+
         var start = function (e) {
             x = e.originalEvent.changedTouches[0].pageX;
             y = e.originalEvent.changedTouches[0].pageY - 130; // 130 came from trial and error
@@ -371,6 +372,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
 
     var brushTouch = function () {
+        var canvas2
+        var Canvas2Image = new Image();
 
         //new canvas
         if (!($('#canvas2').length)) {
@@ -386,6 +389,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             ctx2.lineJoin = 'round';
             ctx2.strokeStyle = color;
             ctx2.lineWidth = size;
+            ctx2.fillStyle = color;
             ctx2.globalAlpha = .5;
         };
 
@@ -417,10 +421,13 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         var stopbrush = function (e) {
             e.preventDefault;
             // draw canvas2 down on original canvas and remove canvas2
-            var img = new Image();
-            img.src = canvas2.toDataURL();
             ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
-            ctx.drawImage(img, 0, 0);
+            
+            Canvas2Image.onload = function () { // May take some time to load the src of the new image.  Just in case, do this:
+                ctx.drawImage(Canvas2Image, 0, 0);
+            }
+            Canvas2Image.src = canvas2.toDataURL();
+
             $('#canvas2').css('opacity', '0');  //hide the canvas after you copy it down so you don't see it duplicated
         };
 
