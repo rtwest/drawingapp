@@ -1,18 +1,34 @@
 ﻿Control Panel / Parent's view
 -----------------------------
-Need to see
-	Kid ID
-	Kid ID (friends)
-	data object (pictures) with Kid ID 
-	data object (pictures) with frined Kid ID
-	Parent ID
-
 
 
 Tables
 ----------
-parent_id, firstname, lastname, emailaddress
-kid_id, nickname, parent_id -- friends?????
-picture_id, kid_id
-comment_id, from_kid_id, picutre_id, comment_content
-request_id, from_id, to_id
+PARENT RECORD: parent_id, displayname, emailaddress
+KID RECORD: kid_id, displayname, parent_id, profileimage, registration_code, status
+FRIEND RECORD: kid_id1, kid_id2
+INVITATION RECORD: from_parent_id, from_kid_id, to_parent_id, to_kid_id, status, datetime
+COMMENT RECORD: picture_id, from_kid_id, to_kid_id, comment_content, datetime
+PICTURE RECORD: picture_id, kid_id, datetime
+SHARE RECORD: picture_id, from_kid_id, to_kid_id
+
+
+
+
+
+
+CREATING A NEW INVITATION
+1. enter parent email and lookup to verify
+2. enter the kids display name and lookup to verify
+3. default to the display of the kid whose context you're creating the invitation in
+4. create new invitation record with the 4 corresponding IDs
+
+
+STORAGE ON DEVICE
+ - localStorage has 10mb limit
+ - SQLite is around 50mb.  Use 'lawnchair.js' for this
+
+
+ REGISTERING THE CLIENT DEVICE WITH PARENT DEVICE
+ - On Parent device, create kid record with Display_Name. This creates a record with a generated Registration_Code and Status of "pending"
+ - On Client device, after splash screen, enter kid Display_Name and matching Registration_Code.  When verified, change Status

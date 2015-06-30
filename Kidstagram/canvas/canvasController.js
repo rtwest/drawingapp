@@ -442,72 +442,72 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     var brushMouse = function () {
    
-        //new canvas
-        //if (!($('#canvas2').length)) {
-            canvas2 = document.createElement('canvas');
-            canvas2.id = 'canvas2';
-            canvas2.width = window.innerWidth;
-            canvas2.height = window.innerHeight - 130;
-            canvas2.style.position = "absolute";
-            canvas2.style.left = 0;
-            $('#content').append(canvas2);
-            ctx2 = canvas2.getContext("2d");
-            ctx2.lineCap = "round";
-            ctx2.lineJoin = 'round';
-            ctx2.lineWidth = size;
-            ctx2.strokeStyle = color;
-            ctx2.globalAlpha = .5;
+        ////new canvas
+        ////if (!($('#canvas2').length)) {
+        //    canvas2 = document.createElement('canvas');
+        //    canvas2.id = 'canvas2';
+        //    canvas2.width = window.innerWidth;
+        //    canvas2.height = window.innerHeight - 130;
+        //    canvas2.style.position = "absolute";
+        //    canvas2.style.left = 0;
+        //    $('#content').append(canvas2);
+        //    ctx2 = canvas2.getContext("2d");
+        //    ctx2.lineCap = "round";
+        //    ctx2.lineJoin = 'round';
+        //    ctx2.lineWidth = size;
+        //    ctx2.strokeStyle = color;
+        //    ctx2.globalAlpha = .5;
+        ////};
+
+        //var clicked = 0;
+
+        //var startbrush = function (e) {
+
+        //    ctx2.lineWidth = size;
+        //    $('#canvas2').css('opacity', '1');  //show the 2nd canvas
+
+        //    clicked = 1;
+        //    ctx2.beginPath();
+        //    ctx2.globalCompositeOperation = 'destination-atop';
+        //    x = e.pageX;
+        //    y = e.pageY - 130;
+        //    ctx2.moveTo(x, y);
+        //    // make a dot on tap
+        //    ctx2.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
+        //    ctx2.fillStyle = color;
+        //    ctx2.fill();
+        //    ctx2.beginPath(); // after dot, start a new line and reset properties
+        //    ctx2.globalCompositeOperation = 'destination-atop';
+        //};
+        //var movebrush = function (e) {
+        //    if (clicked) {
+        //        lastx = x;
+        //        lasty = y;
+        //        x = e.pageX;
+        //        y = e.pageY - 130;
+        //        ctx2.lineWidth = size;
+        //        ctx2.moveTo(lastx, lasty);
+        //        ctx2.lineTo(x, y);
+        //        ctx2.closePath();
+        //        ctx2.strokeStyle = color;
+        //        ctx2.stroke();
+        //    };
+        //};
+        //var stopbrush = function (e) {
+        //    clicked = 0;
+        //    e.preventDefault;
+
+        //    // draw canvas2 down on original canvas and remove canvas2
+        //    var img = new Image();
+        //    img.src = canvas2.toDataURL();
+        //    ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+        //    ctx.drawImage(img,0,0);
+        //    $('#canvas2').css('opacity','0');  //hide the canvas after you copy it down so you don't see it duplicated
         //};
 
-        var clicked = 0;
-
-        var startbrush = function (e) {
-
-            ctx2.lineWidth = size;
-            $('#canvas2').css('opacity', '1');  //show the 2nd canvas
-
-            clicked = 1;
-            ctx2.beginPath();
-            ctx2.globalCompositeOperation = 'destination-atop';
-            x = e.pageX;
-            y = e.pageY - 130;
-            ctx2.moveTo(x, y);
-            // make a dot on tap
-            ctx2.arc(x, y, size / 1.9, 0, 2 * Math.PI, false);
-            ctx2.fillStyle = color;
-            ctx2.fill();
-            ctx2.beginPath(); // after dot, start a new line and reset properties
-            ctx2.globalCompositeOperation = 'destination-atop';
-        };
-        var movebrush = function (e) {
-            if (clicked) {
-                lastx = x;
-                lasty = y;
-                x = e.pageX;
-                y = e.pageY - 130;
-                ctx2.lineWidth = size;
-                ctx2.moveTo(lastx, lasty);
-                ctx2.lineTo(x, y);
-                ctx2.closePath();
-                ctx2.strokeStyle = color;
-                ctx2.stroke();
-            };
-        };
-        var stopbrush = function (e) {
-            clicked = 0;
-            e.preventDefault;
-
-            // draw canvas2 down on original canvas and remove canvas2
-            var img = new Image();
-            img.src = canvas2.toDataURL();
-            ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
-            ctx.drawImage(img,0,0);
-            $('#canvas2').css('opacity','0');  //hide the canvas after you copy it down so you don't see it duplicated
-        };
-
-        $('#canvas2').on('mousedown', startbrush);
-        $('#canvas2').on('mousemove', movebrush);
-        $('#canvas2').on('mouseup', stopbrush);
+        //$('#canvas2').on('mousedown', startbrush);
+        //$('#canvas2').on('mousemove', movebrush);
+        //$('#canvas2').on('mouseup', stopbrush);
 
     };
     // ------------------------------------------
@@ -629,7 +629,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             //var imageDataURI = canvas.toDataURL("image/jpg", 1); // captures id=canvas data as image stream
             var imageDataURI = canvas.toDataURL(); // default is PNG.  0-1 only use for quality in JPG.
 
-            // Save image into localStorage
+            // Save image into localStorage.  Simple name/value pairs.
             // ----------------------------
             // Can also use localStorage for a JSON array of Objects like records
             try {
