@@ -1,7 +1,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="org.devgeeks.Canvas2ImagePlugin"
-    version="0.6.0">
+    id="org.wbt11a.Canvas2ImagePlugin"
+    version="0.7.1">
 
     <name>Canvas 2 Image</name>
 
@@ -9,8 +9,8 @@
         <engine name="cordova" version=">=3.0.0" />
     </engines>
 
-    <description>This plugin allows you to save the contents of an HTML canvas tag to the iOS Photo Library, or Android Gallery from your app.</description>
-    <author>Tommy-Carlos Williams - tommy@devgeeks.org</author>
+    <description>This plugin allows you to save the contents of an HTML canvas tag to the iOS Photo Library, or Android Gallery from your app.  It is modified to provide the absolute path to the sandboxed copy in iOS as opposed to adding it to the photo album. It is also modified to change the filetype and compression quality in android</description>
+    <author>Thomas Margreiter - thomas@margreiter.info</author>
     <keywords>canvas,image,photo library</keywords>
 
     <license>MIT</license>

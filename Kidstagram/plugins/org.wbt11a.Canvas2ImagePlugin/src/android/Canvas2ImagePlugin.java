@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +39,13 @@ public class Canvas2ImagePlugin extends CordovaPlugin {
 		if (action.equals(ACTION)) {
 
 			String base64 = data.optString(0);
+			String extension = data.optString(1);
+			String quality = data.optString(2);
+			String picfolder= Environment.DIRECTORY_PICTURES;
+			boolean add2Galery=true;
+			if (data.length()>3) picfolder=data.optString(3);
+			if (data.length()>4) add2Galery=Boolean.valueOf(data.optString(4));
+				
 			if (base64.equals("")) // isEmpty() requires API level 9
 				callbackContext.error("Missing base64 string");
 			
@@ -50,12 +58,12 @@ public class Canvas2ImagePlugin extends CordovaPlugin {
 			} else {
 				
 				// Save the image
-				File imageFile = savePhoto(bmp);
+				File imageFile = savePhoto(bmp,extension,quality,picfolder);
 				if (imageFile == null)
 					callbackContext.error("Error while saving image");
 				
 				// Update image gallery
-				scanPhoto(imageFile);
+				if (add2Galery) scanPhoto(imageFile);
 				
 				callbackContext.success(imageFile.toString());
 			}
@@ -66,7 +74,17 @@ public class Canvas2ImagePlugin extends CordovaPlugin {
 		}
 	}
 
-	private File savePhoto(Bitmap bmp) {
+	private int getQuality(String strQuality){
+		int result=100;
+		try {
+		    result=Integer.valueOf(strQuality);
+		    if (result> 100) result=100;
+		    if (result < 1) result=1;
+		} catch (Exception e){}		
+		return result;
+	}
+	private File savePhoto(Bitmap bmp,String extension,String strQuality,String picfolder) {
+		int quality=getQuality(strQuality);
 		File retVal = null;
 		
 		try {
@@ -90,8 +108,8 @@ public class Canvas2ImagePlugin extends CordovaPlugin {
 			 */
 			if (check >= 1) {
 				folder = Environment
-					.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-				
+//					.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+					.getExternalStoragePublicDirectory(picfolder);
 				if(!folder.exists()) {
 					folder.mkdirs();
 				}
@@ -99,10 +117,10 @@ public class Canvas2ImagePlugin extends CordovaPlugin {
 				folder = Environment.getExternalStorageDirectory();
 			}
 			
-			File imageFile = new File(folder, "c2i_" + date.toString() + ".png");
-
+			File imageFile = new File(folder, "c2i_" + date.toString() + extension);
+			CompressFormat compressFormat=(extension.equals(".jpg")) ? Bitmap.CompressFormat.JPEG :Bitmap.CompressFormat.PNG;
 			FileOutputStream out = new FileOutputStream(imageFile);
-			bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+			bmp.compress(compressFormat, quality, out);
 			out.flush();
 			out.close();
 

@@ -21,5 +21,6 @@
   <vs:plugin name="org.apache.cordova.device" version="0.2.12" />
   <vs:plugin name="com.msopentech.azure-mobile-services" version="0.1.4" />
   <vs:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
+  <vs:plugin name="org.wbt11a.Canvas2ImagePlugin" version="0.7.1" />
   <vs:platformSpecificValues />
 </widget>

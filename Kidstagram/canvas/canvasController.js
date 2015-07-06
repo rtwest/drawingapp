@@ -7,24 +7,19 @@
 //  -------
 //  iOS
 //  - CanvasPic re-drawn back onto Canvas at wrong size sometimes.  I think I fixed with a check for HiRes displays.  
-//  - DrawTouch has weird 2nd dot on touch release and move start
 //  -------
 //  ANDROID - KINDLE
 //  - AddPicture button doesn't work
-//  - DrawTouch has weird 2nd dot on touch release and move start
 //  -------
 //  - Need localStorage photolibrary.  Limit is 2-5MB.
-//    - Saved array of file names in the device library?
-//    - Saved array of file names & filename|file pairs?
-//    - Saved photolibrary JSON object as key|JSONobject?
-//    - Need to handel limit errors
+//    - save to camera roll / photo gallery & store file path in localStorage
+//    - NEED TO DROP THE SUCCESS ALERT AFTER SAVING IMAGE IN THE IOS AND ANDROID BUILD PROJECTS
 //  - Need to figure out Sharing data needs
 //    - Data needs - imagename, Who shared with > ,  
 //
 //
 //  TODO
 //
-//  - Test Brush on Touch.  Failed.  Switching from BrushTouch to BrushMouse had no change.
 //  - BE MINIMAL
 //  - AUTO SAVE AS YOU GO
 //
@@ -162,8 +157,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         brushTouch(); // use for deploy to touch device
         $('#brushicon2').addClass('brush2select');
         size = 18;
-        //ctx2.beginPath(); // start a new line
-        //ctx2.lineWidth = size; // set the new line size
     };
     $scope.chooseBrush3 = function () {
         resetdrawingtoolbar();
@@ -174,8 +167,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         brushTouch(); // use for deploy to touch device
         $('#brushicon3').addClass('brush3select');
         size = 40;
-        //ctx2.beginPath(); // start a new line
-        //ctx2.lineWidth = size; // set the new line size
     };
 
     // For choosing the color
@@ -305,7 +296,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     };
 
-
     function eraseTouch() {
         ctx.lineWidth = 18;
         var starteraser = function (e) {
@@ -368,8 +358,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         $('#canvas').on('mousemove', moveeraser);
         $('#canvas').on('mouseup', stoperaser);
     };
-
-
 
     var brushTouch = function () {
         var canvas2
@@ -437,8 +425,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     };
     // ------------------------------------------
-
-
 
     var brushMouse = function () {
    
@@ -560,55 +546,23 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // ------------------------------------------------------------------
     $scope.saveImage = function () {
 
-        // This plugin may be need for older Android.  Plugin in already in 'plugins' folder
-        //window.canvas2ImagePlugin.saveImageDataToLibrary(
-        //    function (msg) {
-        //        console.log(msg);
-        //    },
-        //    function (err) {
-        //        console.log(err);
-        //    },
-        //    document.getElementById('canvas')
-        //);
 
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //      THE PROBLEM IS IN HERE
-        //      !!! background image fails to be redrawn on iOS
-        //
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@ NOT ABLE TO BET BACKGROUND IMAGE SAVED.  TEST FOR NO BACKGROUND IMAGE. @@@@@@@@@@@@@@@@@@@@@@@@
 
-        // Use same dimensions as canvas
+        // Get the canvas ready
+        // ---
+        //---   EVERTYTHING BELOW IS ABOUT TAKING A BACKGROUND PHOTO, DRAWING IT ONTO CANVAS, THEN SAVING IT ALL DOWN ---
+
+        //// Use same dimensions as canvas
         var h = window.innerHeight - 90;
         var w = window.innerWidth;
-
         var canvasPic = new Image(); // create a new image with the canvas drawing
-
         canvasPic.onload = function () { // May take some time to load the src of the new image.  Just in case, do this:
             ctx.clearRect(0, 0, w, h) // clear the canvas
             try { // fail safely if there is no background image
 
                 // Test out fix for vertical squish here 
                 // ==================================================
-                // ==================================================
-                // ==================================================
-
-                // OLD CODE
-                // detect high density display
-                //// ------------------------------
-                ////var isHiRes = function isHighDensity() {
-                ////    return ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 124dpi), only screen and (min-resolution: 1.3dppx), only screen and (min-resolution: 48.8dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (min-device-pixel-ratio: 1.3)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 1.3));
-                ////}
-                //var isHiRes = ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 124dpi), only screen and (min-resolution: 1.3dppx), only screen and (min-resolution: 48.8dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (min-device-pixel-ratio: 1.3)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 1.3));
-                //console.log(isHiRes);
-                //// Platform-specific resizing.
-                ////if (device.platform === 'iOS') { ctx.drawImage(backgroundImage, 0, 0, w, 2*h) } // for iOS
-                //if (isHiRes) {
-                //    ctx.drawImage(backgroundImage, 0, 0, w, 2 * h)
-                //} // for iOS
-                //else { ctx.drawImage(backgroundImage, 0, 0, w, h) } // for Android
-
                 //GitHub solution here: https://github.com/stomita/ios-imagefile-megapixel/tree/master/test
 
                 //var megaPixelImg = new MegaPixImage(backgroundImage);
@@ -616,45 +570,62 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
                 //mpImg.render(resCanvas, { maxWidth: w, maxHeight: h }); // draw resampled backgroundimage into canvas element
 
                 // Basic version
-                ctx.drawImage(backgroundImage, 0, 0, w, h); // resize to w, h and will squish to fit aspect ratio. 
-                //ctx.drawImage(backgroundImage, 0, 0);
-
-                // ==================================================
-                // ==================================================
+                //ctx.drawImage(backgroundImage, 0, 0, w, h); // resize to w, h and will squish to fit aspect ratio. 
+                ctx.drawImage(backgroundImage, 0, 0); //draw background image onto canvas
                 // ==================================================
             }
             catch (err) {document.getElementById('log').innerHTML += 'Failed redrawing background image ' + err + ' </br>'} // old school dom injection
 
             ctx.drawImage(canvasPic, 0, 0) // draw canvas drawing on top of background image
-            //var imageDataURI = canvas.toDataURL("image/jpg", 1); // captures id=canvas data as image stream
-            var imageDataURI = canvas.toDataURL(); // default is PNG.  0-1 only use for quality in JPG.
 
-            // Save image into localStorage.  Simple name/value pairs.
-            // ----------------------------
-            // Can also use localStorage for a JSON array of Objects like records
-            try {
-                localStorage.setItem("image1", imageDataURI);
-            }
-            catch (e) {
-                console.log("Storage failed: " + e);
-                document.getElementById('log').innerHTML += 'Storage failed: ' + e + ' </br>' // old school dom injection
-            };
+        //    //var imageDataURI = canvas.toDataURL("image/jpg", 1); // captures id=canvas data as image stream
+        //    var imageDataURI = canvas.toDataURL(); // default is PNG.  0-1 only use for quality in JPG.
 
-            // FOR TESTING PURPOSE ONLY
-            // ------------------------
-            // Try seeing if you have image in localStorage
-            try {
-                document.getElementById("imagegoeshere").src = localStorage.getItem("image1");
-            }
-            catch (e) {
-                console.log("Retrieve failed: " + e);
-                document.getElementById('log').innerHTML += 'Retrieve failed: ' + e + ' </br>' // old school dom injection
-            };
+        //    // Save image into localStorage.  Simple name/value pairs.
+        //    // ----------------------------
+        //    // Can also use localStorage for a JSON array of Objects like records
+        //    try {
+        //        localStorage.setItem("image1", imageDataURI);
+        //    }
+        //    catch (e) {
+        //        console.log("Storage failed: " + e);
+        //        document.getElementById('log').innerHTML += 'Storage failed: ' + e + ' </br>' // old school dom injection
+        //    };
 
-        };
+        //    // FOR TESTING PURPOSE ONLY
+        //    // ------------------------
+        //    // Try seeing if you have image in localStorage
+        //    try {
+        //        document.getElementById("imagegoeshere").src = localStorage.getItem("image1");
+        //    }
+        //    catch (e) {
+        //        console.log("Retrieve failed: " + e);
+        //        document.getElementById('log').innerHTML += 'Retrieve failed: ' + e + ' </br>' // old school dom injection
+        //    };
+
+        }; // end .onload
+
+        // ***
+        canvasPic.src = canvas.toDataURL();  // this is the trigger for the above onLoad function.  this is where you make a copy of canvas.
+        
+        ctx.drawImage(canvasPic, 0, 0) // draw canvas drawing on top of background image
 
 
-        canvasPic.src = canvas.toDataURL();  // this is the trigger for the above onLoad function
+        // Using plugin to save to camera roll / photo gallery and return file path
+        // ---
+        window.canvas2ImagePlugin.saveImageDataToLibrary(
+            function (msg) {
+                console.log(msg);  //msg is the filename path (for android and iOS)
+
+                // FOR TESTING ONLY -- Try seeing if you have image file path
+                try {document.getElementById("imagegoeshere").src = msg;}
+                catch (e) { };
+            },
+            function (err) {console.log(err);},
+            document.getElementById('canvas') // other params can follow here with commas...format, quality,etc... ",'.jpg', 80," 
+        );
+        
+        
         $('#canvas').css('background-image', 'url()');// reset the CSS background 
     };
 

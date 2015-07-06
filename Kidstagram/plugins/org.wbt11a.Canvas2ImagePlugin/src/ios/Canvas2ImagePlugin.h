@@ -15,7 +15,7 @@
 	NSString* callbackId;
 }
 
-@property (nonatomic, copy) NSString* callbackId;
+@property (strong, nonatomic) CDVInvokedUrlCommand* latestCommand;
 
 - (void)saveImageDataToLibrary:(CDVInvokedUrlCommand*)command;
 
