@@ -44,7 +44,6 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     var tool = 'pen'
     var x, y, lastx, lasty = 0;
     var backgroundImage = new Image();
-    //var Canvas2Image = new Image();
     var isTouch
 
     // Test for touch device - NOT USED
@@ -107,7 +106,8 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         if ($('#canvas2').length) {
             $('#canvas2').remove();
         };
-    }; $scope.choosePen3 = function () {
+    };
+    $scope.choosePen3 = function () {
         resetdrawingtoolbar();
         drawTouch();
         //drawMouse(); // only needed for testing
@@ -120,6 +120,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             $('#canvas2').remove();
         };
     };
+
     $scope.chooseEraser = function () {
         resetdrawingtoolbar();
         eraseTouch();
@@ -545,38 +546,41 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // Function to save the Canvas contents to an image on the file system
     // ------------------------------------------------------------------
     $scope.saveImage = function () {
-
-
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@ NOT ABLE TO BET BACKGROUND IMAGE SAVED.  TEST FOR NO BACKGROUND IMAGE. @@@@@@@@@@@@@@@@@@@@@@@@
-
-        // Get the canvas ready
-        // ---
-        //---   EVERTYTHING BELOW IS ABOUT TAKING A BACKGROUND PHOTO, DRAWING IT ONTO CANVAS, THEN SAVING IT ALL DOWN ---
-
-        //// Use same dimensions as canvas
-        var h = window.innerHeight - 90;
         var w = window.innerWidth;
-        var canvasPic = new Image(); // create a new image with the canvas drawing
-        canvasPic.onload = function () { // May take some time to load the src of the new image.  Just in case, do this:
-            ctx.clearRect(0, 0, w, h) // clear the canvas
-            try { // fail safely if there is no background image
+        var h = window.innerHeight - 90;
+        // IF no background image from camera, THEN fill background with white rectangle so it isn't transparent
+        ctx.globalCompositeOperation = 'destination-over'; // draw behind current drawing
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
+
+        //---   EVERTYTHING BELOW IS ABOUT TAKING A BACKGROUND PHOTO, DRAWING IT ONTO CANVAS, THEN SAVING IT ALL DOWN ---
+        ////create a dummy CANVAS??
+
+        //var canvasPic = new Image(); // create a new image with the canvas drawing
+        //canvasPic.src = canvas.toDataURL();  // make a copy of canvas.
+
+        //canvasPic.onload = function () { // May take some time to load the src of the new image.  Just in case, do this:
+            //ctx.clearRect(0, 0, w, h) // clear the canvas
+
+            //try { // fail safely if there is no background image
 
                 // Test out fix for vertical squish here 
                 // ==================================================
                 //GitHub solution here: https://github.com/stomita/ios-imagefile-megapixel/tree/master/test
-
                 //var megaPixelImg = new MegaPixImage(backgroundImage);
                 //var resCanvas = $('#canvas');
                 //mpImg.render(resCanvas, { maxWidth: w, maxHeight: h }); // draw resampled backgroundimage into canvas element
+                // ==================================================
 
                 // Basic version
                 //ctx.drawImage(backgroundImage, 0, 0, w, h); // resize to w, h and will squish to fit aspect ratio. 
-                ctx.drawImage(backgroundImage, 0, 0); //draw background image onto canvas
+                //ctx.drawImage(backgroundImage, 0, 0); //draw background image onto canvas
                 // ==================================================
-            }
-            catch (err) {document.getElementById('log').innerHTML += 'Failed redrawing background image ' + err + ' </br>'} // old school dom injection
+            //}
+            //catch (err) { document.getElementById('log').innerHTML += 'Failed redrawing background image ' + err + ' </br>'; alert(err);} // old school dom injection
 
-            ctx.drawImage(canvasPic, 0, 0) // draw canvas drawing on top of background image
+            //ctx.drawImage(canvasPic, 0, 0) // draw canvas drawing on top of background image
 
         //    //var imageDataURI = canvas.toDataURL("image/jpg", 1); // captures id=canvas data as image stream
         //    var imageDataURI = canvas.toDataURL(); // default is PNG.  0-1 only use for quality in JPG.
@@ -603,27 +607,26 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         //        document.getElementById('log').innerHTML += 'Retrieve failed: ' + e + ' </br>' // old school dom injection
         //    };
 
-        }; // end .onload
+    //    }; // end .onload
 
         // ***
-        canvasPic.src = canvas.toDataURL();  // this is the trigger for the above onLoad function.  this is where you make a copy of canvas.
+        //canvasPic.src = canvas.toDataURL();  // this is the trigger for the above onLoad function.  this is where you make a copy of canvas.
         
-        ctx.drawImage(canvasPic, 0, 0) // draw canvas drawing on top of background image
 
 
         // Using plugin to save to camera roll / photo gallery and return file path
         // ---
         window.canvas2ImagePlugin.saveImageDataToLibrary(
             function (msg) {
-                console.log(msg);  //msg is the filename path (for android and iOS)
+                console.log(msg); //alert(msg); //msg is the filename path (for android and iOS)
 
-                // FOR TESTING ONLY -- Try seeing if you have image file path
-                try {document.getElementById("imagegoeshere").src = msg;}
-                catch (e) { };
+                // @@@@@@@@@@@@@@@@@@@@@@@  WHAT TO USE FOR GALLERY STORAGE?  LOCALSTORAGE WITH JSON?  LAWNCHAIR? @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                // Save filepath to localStorage for gallery
+                localStorage.setItem("image1", msg);
             },
             function (err) {console.log(err);},
             document.getElementById('canvas') // other params can follow here with commas...format, quality,etc... ",'.jpg', 80," 
-        );
+       );
         
         
         $('#canvas').css('background-image', 'url()');// reset the CSS background 
