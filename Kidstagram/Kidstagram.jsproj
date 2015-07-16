@@ -258,7 +258,8 @@
     <Content Include="plugins\org.wbt11a.Canvas2ImagePlugin\src\wp8\Canvas2ImagePlugin.cs" />
     <Content Include="plugins\org.wbt11a.Canvas2ImagePlugin\www\Canvas2ImagePlugin.js" />
     <Content Include="res\splash.svg" />
-    <Content Include="scripts\ripples.js" />
+    <Content Include="scripts\lawnchair-0.6.1.min.js" />
+    <Content Include="scripts\lawnchair-adapter-indexed-db-0.6.1.js" />
     <Content Include="scripts\ui-bootstrap-tpls-0.11.0.min.js" />
     <Content Include="scripts\version.json" />
     <Content Include="services\mobileServices\settings\service-poc.js" />
@@ -633,7 +634,6 @@
     <Content Include="scripts\i18n\angular-locale_zu.js" />
     <Content Include="scripts\index.js" />
     <Content Include="scripts\jquery-1.9.1.min.js" />
-    <Content Include="scripts\material.js" />
     <Content Include="scripts\MobileServices.Web-1.1.3.min.js" />
     <Content Include="scripts\NotificationHub.js" />
     <Content Include="scripts\platformOverrides.js" />

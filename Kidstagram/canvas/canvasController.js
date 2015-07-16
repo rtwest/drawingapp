@@ -620,7 +620,7 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             function (msg) {
                 console.log(msg); //alert(msg); //msg is the filename path (for android and iOS)
 
-                // @@@@@@@@@@@@@@@@@@@@@@@  WHAT TO USE FOR GALLERY STORAGE?  LOCALSTORAGE WITH JSON?  LAWNCHAIR? @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                // @@@@@@@@@@@@@@@@@@@@@@@  WHAT TO USE FOR GALLERY STORAGE? == get familiar with LAWNCHAIR for future @@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 // Save filepath to localStorage for gallery
                 localStorage.setItem("image1", msg);
             },
