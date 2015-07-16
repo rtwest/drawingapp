@@ -264,10 +264,22 @@ var cordovaNG = angular.module('cordovaNG', [
     'azure-mobile-service.module',
     'ui.bootstrap'
 ]);
-        
 // ==================================================
 // ==================================================
 
+
+// ==================================================
+// Set up local storage usage
+// ==================================================
+
+var storage_name = 'lawnchairgallery';  // table name
+
+cordovaNG.run(function($rootScope, remoteResources){ //$rootScope is the top most scope and like a JS object / Global var for all
+
+    //$rootScope.api_base = "http://your-domain.com/api/";  // I don't think I have a need for this here with other Azure means for access
+});
+// ==================================================
+// ==================================================
 
 
 // ==================================================
