@@ -1,4 +1,4 @@
-QUESTIONS
+QUESTIONS - updated
 -----------------------------
 1. What to do with gallery view? 
 	Easy thing - custom gallery in localStorage/SQLite - OR - dump into cameral roll and forget it.  
