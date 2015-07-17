@@ -29,8 +29,12 @@ CREATING A NEW INVITATION
 
 
 STORAGE ON DEVICE
- - localStorage has 10mb limit
- - SQLite is around 50mb.  Use 'lawnchair.js' for this
+ - localStorage has 10mb limit.  SQLite is around 50mb.  Use 'lawnchair.js' for this with IndexedDB
+ - Lawnchair or IDBWrapper?
+ - Put methods in Global Service - test by creating the db.  Should creating it go in service? test and check duplication.
+ 	Set up Lawnchair in Service and wrap it functions to pass through to them?
+ - check that methods are exposed as expected in another controller
+ 
 
 
  REGISTERING THE CLIENT DEVICE WITH PARENT DEVICE
