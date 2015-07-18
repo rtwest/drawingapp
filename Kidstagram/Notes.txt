@@ -31,6 +31,8 @@ CREATING A NEW INVITATION
 STORAGE ON DEVICE
  - localStorage has 10mb limit
  - SQLite is around 50mb.  Use 'lawnchair.js' for this
+ - put storage functions in Ng Service.  Need different tables,
+ - need a place to initialize the database, check Azure for updates, and update localStorage indexeddb
 
 
  REGISTERING THE CLIENT DEVICE WITH PARENT DEVICE
