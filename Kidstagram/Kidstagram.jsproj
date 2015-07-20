@@ -258,6 +258,7 @@
     <Content Include="plugins\org.wbt11a.Canvas2ImagePlugin\src\wp8\Canvas2ImagePlugin.cs" />
     <Content Include="plugins\org.wbt11a.Canvas2ImagePlugin\www\Canvas2ImagePlugin.js" />
     <Content Include="res\splash.svg" />
+    <Content Include="scripts\idbstore.min.js" />
     <Content Include="scripts\lawnchair-0.6.1.min.js" />
     <Content Include="scripts\lawnchair-adapter-indexed-db-0.6.1.js" />
     <Content Include="scripts\ui-bootstrap-tpls-0.11.0.min.js" />

@@ -30,7 +30,10 @@ CREATING A NEW INVITATION
 
 STORAGE ON DEVICE
  - localStorage has 10mb limit
- - SQLite is around 50mb.  Use 'lawnchair.js' for this
+ - SQLite is around 50mb.  Use 'lawnchair.js' for this.
+ - Put in global Service.  Wrap methods to pass through and return.  
+ - Use Lawnchair or IDBWrapper?
+
 
 
  REGISTERING THE CLIENT DEVICE WITH PARENT DEVICE

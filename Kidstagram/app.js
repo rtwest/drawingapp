@@ -268,19 +268,6 @@ var cordovaNG = angular.module('cordovaNG', [
 // ==================================================
 
 
-// ==================================================
-// Set up local storage usage
-// ==================================================
-
-//var storage_name = 'lawnchairgallery';  // table name
-
-//cordovaNG.run(function($rootScope, remoteResources){ //$rootScope is the top most scope and like a JS object / Global var for all
-
-    //$rootScope.api_base = "http://your-domain.com/api/";  // I don't think I have a need for this here with other Azure means for access
-//});
-// ==================================================
-// ==================================================
-
 
 // ==================================================
 // Configure the routes for navigation
@@ -315,24 +302,32 @@ cordovaNG.config(function ($routeProvider) {
 
 
 // ==================================================
-// Configure service for global use - global data model and localStorage?
+// Configure service for global use - global data model and localStorage.
 // Common Global Functions and Variables to reuse across controllers.  Service seems like a classes with methods and vars.
 // Service can have dependencies with a weird 'injection notation' []
 // Inject factory/service <name> as a dependency to controllers to make available.
 // ==================================================
 
-cordovaNG.service('globalService', ['$location', function ($location) {
+cordovaNG.service('globalService',['$location', function ($location) {
 
-    // Global vars
-    // ----------
+    // SETTING UP LOCALSTORAGE.  Create a new IndexedDB store using IDBWrapper.  NOTE: takes some time to create the store and will error if you use before it is ready.
+    // http://jensarps.de/2011/11/25/working-with-idbwrapper-part-1/
+    // -----------------------------
+    var drawappDatabase = new IDBStore({
+        dbVersion: 2,
+        storeName: 'drawappDatabase',
+        keyPath: 'id', //primary key of record
+        autoIncrement: true,
+        onStoreReady: function () { console.log('database is ready') },
+        indexes: [{ name: 'uid' }] //this adds a uniqe id column to query against later
+    });
+    var onDBsuccess = function () { console.log('Database transaction success') };
+    var onDBerror = function (err) { console.log('Database transaction failed: ', err) };
+    // ----------------------
 
-    // Global functions
-    // ----------
-    return {
+    return  {
         // Functions for get/set on global vars.  
-        // !!!! Persistent Vars in the UI maybe better stored in SESSIONSTORAGE for reload on page refresh
         //----------
-
 
         // Global functions
         // ----------------
@@ -344,9 +339,52 @@ cordovaNG.service('globalService', ['$location', function ($location) {
                 obj[key] = typeof original[key] === 'object' ? '{ ... }' : original[key];
                 return obj;
             }, {});
-        }
+        },
 
-    };
+        // Database IDBWrapper methods
+        //-----------------
+        makeUniqueID: function generateUUID(){ // Clever function to make a GUID compliant with standard format cast as type STRING
+            var d = new Date().getTime();
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (d + Math.random()*16)%16 | 0;
+                d = Math.floor(d/16);
+                return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+            });
+            return uuid;
+        },
+        drawappDatabasePut: function (record) {
+            drawappDatabase.put(record, onDBsuccess, onDBerror)
+        },
+        drawappDatabaseGet: function (UniqueKey) {
+            drawappDatabase.get(UniqueKey, onDBsuccess, onDBerror)
+        },
+        drawappDatabaseGetall: function () {
+            drawappDatabase.getAll(onDBsuccess, onDBerror)
+        },
+        drawappDatabaseRemove: function (UniqueKey) {
+            drawappDatabase.remove(UniqueKey, onDBsuccess, onDBerror)
+        },
+        drawappDatabaseFindRecordWhere: function (index, val) {
+            var onItem = function (item) { return item } // action to take when you find it 
+            var keyRange = drawappDatabase.makeKeyRange({ // specifiying the range to look for (or narrow to specific item)
+                lower: val,
+                upper: val
+            });
+            drawappDatabase.iterate(onItem, {  // this is the actual search on indexedDB
+                index: index,
+                keyRange: keyRange,
+                onEnd: function (item) { console.log('IndexedDB search done') }
+            });
+        },
+
+        // NOTE: To use these, add/inject 'globalService' into the calling controller and use like below.  RowID and UniqueKey are autoincremented
+        //      var record = { key: 'config2', settings: { color: 'green' } }; //json record
+        //      globalService.drawappDatabasePut(record);
+        //-----------------
+
+
+
+    };//end global function defintion
 
 }]);
 // ==================================================
@@ -370,7 +408,7 @@ cordovaNG.controller('mainController', function ($scope, Azureservice) {
     // -------------------------------
     $scope.azurelogin = function () {
         
-        // Call the login method in teh Azure mobile wrapper for Google
+        // Call the login method in the Azure mobile wrapper for Google
         Azureservice.login('google')
         .then(function () { // when done, do this
             $scope.loginstatus = 'Login successful';

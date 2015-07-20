@@ -32,13 +32,10 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
 
     // Scope is like the partial view datamodel.  'message' is defined in the partial html view
     //$scope.message = "Let's draw";
-    // Try seeing if you have image in localStorage
-    try {
-        document.getElementById("imagegoeshere").src = localStorage.getItem("image1");
-    }
-    catch (e) {
-        console.log("Retrieve failed: " + e);
-    };
+
+
+    // Variables
+    // -----------
     var ctx, ctx2, color = "#000";
     var line_Width, size = 5;
     var tool = 'pen'
@@ -548,84 +545,34 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     $scope.saveImage = function () {
         var w = window.innerWidth;
         var h = window.innerHeight - 90;
+
         // IF no background image from camera, THEN fill background with white rectangle so it isn't transparent
+        // @@@ ENVENTUALLY WILL ADD METHOD TO LOOK FOR BACKGROUND IMAGE AND COMBINE WITH CANVAS BEFORE SAVING @@@
         ctx.globalCompositeOperation = 'destination-over'; // draw behind current drawing
         ctx.fillStyle = "#FFFFFF";
         ctx.fillRect(0, 0, w, h);
         ctx.globalCompositeOperation = 'source-over'; // reset this back to drawing
 
-        //---   EVERTYTHING BELOW IS ABOUT TAKING A BACKGROUND PHOTO, DRAWING IT ONTO CANVAS, THEN SAVING IT ALL DOWN ---
-        ////create a dummy CANVAS??
-
-        //var canvasPic = new Image(); // create a new image with the canvas drawing
-        //canvasPic.src = canvas.toDataURL();  // make a copy of canvas.
-
-        //canvasPic.onload = function () { // May take some time to load the src of the new image.  Just in case, do this:
-            //ctx.clearRect(0, 0, w, h) // clear the canvas
-
-            //try { // fail safely if there is no background image
-
-                // Test out fix for vertical squish here 
-                // ==================================================
-                //GitHub solution here: https://github.com/stomita/ios-imagefile-megapixel/tree/master/test
-                //var megaPixelImg = new MegaPixImage(backgroundImage);
-                //var resCanvas = $('#canvas');
-                //mpImg.render(resCanvas, { maxWidth: w, maxHeight: h }); // draw resampled backgroundimage into canvas element
-                // ==================================================
-
-                // Basic version
-                //ctx.drawImage(backgroundImage, 0, 0, w, h); // resize to w, h and will squish to fit aspect ratio. 
-                //ctx.drawImage(backgroundImage, 0, 0); //draw background image onto canvas
-                // ==================================================
-            //}
-            //catch (err) { document.getElementById('log').innerHTML += 'Failed redrawing background image ' + err + ' </br>'; alert(err);} // old school dom injection
-
-            //ctx.drawImage(canvasPic, 0, 0) // draw canvas drawing on top of background image
-
-        //    //var imageDataURI = canvas.toDataURL("image/jpg", 1); // captures id=canvas data as image stream
-        //    var imageDataURI = canvas.toDataURL(); // default is PNG.  0-1 only use for quality in JPG.
-
-        //    // Save image into localStorage.  Simple name/value pairs.
-        //    // ----------------------------
-        //    // Can also use localStorage for a JSON array of Objects like records
-        //    try {
-        //        localStorage.setItem("image1", imageDataURI);
-        //    }
-        //    catch (e) {
-        //        console.log("Storage failed: " + e);
-        //        document.getElementById('log').innerHTML += 'Storage failed: ' + e + ' </br>' // old school dom injection
-        //    };
-
-        //    // FOR TESTING PURPOSE ONLY
-        //    // ------------------------
-        //    // Try seeing if you have image in localStorage
-        //    try {
-        //        document.getElementById("imagegoeshere").src = localStorage.getItem("image1");
-        //    }
-        //    catch (e) {
-        //        console.log("Retrieve failed: " + e);
-        //        document.getElementById('log').innerHTML += 'Retrieve failed: ' + e + ' </br>' // old school dom injection
-        //    };
-
-    //    }; // end .onload
-
-        // ***
-        //canvasPic.src = canvas.toDataURL();  // this is the trigger for the above onLoad function.  this is where you make a copy of canvas.
-        
-
-
         // Using plugin to save to camera roll / photo gallery and return file path
         // ---
         window.canvas2ImagePlugin.saveImageDataToLibrary(
             function (msg) {
-                console.log(msg); //alert(msg); //msg is the filename path (for android and iOS)
+                console.log(msg); alert(msg); //msg is the filename path (for android and iOS)
 
-                // @@@@@@@@@@@@@@@@@@@@@@@  WHAT TO USE FOR GALLERY STORAGE? == get familiar with LAWNCHAIR for future @@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                // Save filepath to localStorage for gallery
-                localStorage.setItem("image1", msg);
+                // Save filepath to IndexedDB for gallery
+                // --------
+                var uid = globalService.makeUniqueID();
+                var record = { uid: uid, filepath: msg, datetime: Date.now() }; //JSON for unique id for picture, filepath to retrieve it, datetime in milliseconds
+                globalService.drawappDatabasePut(record); // Save function
+
+                // Test retrieving == FOR TESTING ONLY.  REMOVE THIS FROM HERE.  NEEDS TO REALLY GO INTO THE GALLERY VIEW TO RETRIEVE
+                // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&   WORKING HERE
+                var foundRecord = globalService.drawappDatabaseFindRecordWhere('uid', uid);
+                console.log(record);
+                // --------------
             },
             function (err) {console.log(err);},
-            document.getElementById('canvas') // other params can follow here with commas...format, quality,etc... ",'.jpg', 80," 
+            document.getElementById('canvas') // This names the element that is the Canvas.  Other params can follow here with commas...format, quality,etc... ",'.jpg', 80," 
        );
         
         
