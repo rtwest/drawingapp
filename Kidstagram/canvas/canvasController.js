@@ -28,7 +28,7 @@
 
 
 
-cordovaNG.controller('canvasController', function ($scope, $http, globalService) {
+cordovaNG.controller('canvasController', function ($scope, $rootScope, $http, globalService) {
 
     // Scope is like the partial view datamodel.  'message' is defined in the partial html view
     //$scope.message = "Let's draw";
@@ -556,26 +556,18 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
         // Using plugin to save to camera roll / photo gallery and return file path
         // ---
         window.canvas2ImagePlugin.saveImageDataToLibrary(
-            function (msg) {
-                console.log(msg); alert(msg); //msg is the filename path (for android and iOS)
-
+            function (filepath) {
+                console.log('image file path is: ' + filepath); //alert(filepath); //filepath is the filename path (for android and iOS)
                 // Save filepath to IndexedDB for gallery
                 // --------
                 var uid = globalService.makeUniqueID();
-                var record = { uid: uid, filepath: msg, datetime: Date.now() }; //JSON for unique id for picture, filepath to retrieve it, datetime in milliseconds
-                globalService.drawappDatabasePut(record); // Save function
-
-                // Test retrieving == FOR TESTING ONLY.  REMOVE THIS FROM HERE.  NEEDS TO REALLY GO INTO THE GALLERY VIEW TO RETRIEVE
-                // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&   WORKING HERE
-                var foundRecord = globalService.drawappDatabaseFindRecordWhere('uid', uid);
-                console.log(record);
-                // --------------
+                var record = { uid: uid, filepath: filepath, datetime: Date.now() }; //JSON for unique id for picture, filepath to retrieve it, datetime in milliseconds
+                globalService.drawappDatabasePut(record); // Save function @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                // --------
             },
             function (err) {console.log(err);},
             document.getElementById('canvas') // This names the element that is the Canvas.  Other params can follow here with commas...format, quality,etc... ",'.jpg', 80," 
-       );
-        
-        
+       );   
         $('#canvas').css('background-image', 'url()');// reset the CSS background 
     };
 
@@ -586,26 +578,26 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
     // To upload file to Azure blob storage.  1. Call API to get a sasURL.  2. PUT the file using the sasURL 
     //  Upload call SaveImage and implicityly saves the canvas and and background to the 'photolibrary'
     // ----------------------------------
-        $scope.uploadImage = function () {
+    $scope.uploadImage = function () {
 
-            var sasUrl;
-            var photoId;
-            var requestUrl = "https://service-poc.azure-mobile.net/api/getuploadblobsas" // URL to the custom rest API
+        var sasUrl;
+        var photoId;
+        var requestUrl = "https://service-poc.azure-mobile.net/api/getuploadblobsas" // URL to the custom rest API
 
-            // Save Canvas and combine any Background image first
-            // @@@@@@@@@@@@@@@@@@@@@@@@@
-            $scope.saveImage();
+        // Save Canvas and combine any Background image first
+        // @@@@@@@@@@@@@@@@@@@@@@@@@
+        $scope.saveImage();
 
-            // @@@@@@@@@@@@@ THIS IS BEING CALLED BEFORE SAVEIMAGE IS DONE SO THE BACKGROUND ISN'T IN CANVAS YET.
-            var blob = dataURItoBlob(canvas.toDataURL("image/png", 1.0));// Convert the Base64 encoded image to just the blob
+        // @@@@@@@@@@@@@ THIS IS BEING CALLED BEFORE SAVEIMAGE IS DONE SO THE BACKGROUND ISN'T IN CANVAS YET.
+        var blob = dataURItoBlob(canvas.toDataURL("image/png", 1.0));// Convert the Base64 encoded image to just the blob
 
-            // -------------------
-            // Using a callback function passed as a para is supposed to work on StackOverflow
-            // $scope.saveImage(getSasUrlandUpload);
-            // .saveImage needs to be written to take a param and 'return true' at the very end to allow the next fuction to be called * I think
-            // -------------------
+        // -------------------
+        // Using a callback function passed as a para is supposed to work on StackOverflow
+        // $scope.saveImage(getSasUrlandUpload);
+        // .saveImage needs to be written to take a param and 'return true' at the very end to allow the next fuction to be called * I think
+        // -------------------
 
-            getSasUrlandUpload();
+        getSasUrlandUpload();
 
 
         // Get SAS URL using AJAX and Angular.  OnSuccess, update the image the SASUrl points to with our image
@@ -653,7 +645,37 @@ cordovaNG.controller('canvasController', function ($scope, $http, globalService)
             return new Blob([ia], { type: mimeString });
         }
 
-    }
+    };
+
+
+    // Function to nav to gallery view
+    // ------------------------------------------------------------------
+    $scope.goToGallery = function () {
+
+        // Test retrieving == FOR TESTING ONLY. 
+        // -----------------------------------
+        //globalService.drawappDatabaseFindRecordWhere('uid', "f6e2f81a-bc13-4109-9153-025319b8edbe");
+        //setTimeout(function () { console.log('returned record is: ' + JSON.stringify(globalService.dbRecords[0])) }, 100) // This is a lousy hack.  Should be more elegant Callback method. 
+        //globalService.drawappDatabaseGetall();
+        //setTimeout(function () {
+        //    var items = globalService.dbRecords[0]; // get a JSON collection
+        //    // Split the JSON collection into an Array of JSON
+        //    var arr = [];
+        //    for (var x in items) {
+        //        arr.push(items[x]);
+        //    }
+        //    // ---
+        //    //console.log('returned record is: ' + JSON.stringify(arr[0])); // first JSON obj item in array)
+        //    console.log('returned record is: ' + arr[0].uid); // JSON obj item in array at postion [x] with named JSON property .name)
+        //}, 100) // This is a lousy hack.  Should be more elegant Callback method. 
+
+        // --------------
+        var foundItems = []; //dump out this array 
+        var onSuccess = function (data) { foundItems.push(data); console.log(data) };//push into array
+        globalService.drawappDatabase.getAll(onSuccess, function () { console.log('error') })
+        // @@@@@@@@@@@@@@@@@@@@@@@@ MAYBE IS EASIER TO USE THE FUNCTIONS OUTSIDE SERVICE AND USE 'ONSUCCESS' AS THE CALLBACK @@@@@@@@@@@@@@@@@@@@@@@@@@
+
+    };
 
 
     // Ugly hack to create an HTML canvas when the HTML partial view is loaded

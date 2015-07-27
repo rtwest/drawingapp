@@ -1,9 +1,7 @@
 QUESTIONS - updated
 -----------------------------
-1. What to do with gallery view? 
-	Easy thing - custom gallery in localStorage/SQLite - OR - dump into cameral roll and forget it.  
-	Right thing - use cameral roll and save file path for app gallery
-	Hack - do both but keep them separate.
+1. What to do with gallery view?  Save to camera roll and save filepath to localstorage using IndexedDB.
+
 
 
 Tables
