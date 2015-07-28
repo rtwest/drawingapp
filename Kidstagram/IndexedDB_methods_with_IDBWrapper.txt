@@ -1,0 +1,63 @@
+﻿
+EXAMPLES FOR USING IDBWRAPPER WITH INDEXEDDB
+
+NOTE: To use these, add/inject 'globalService' into the calling controller and use like below.  RowID and UniqueKey are autoincremented
+      var record = { key: 'config2', settings: { color: 'green' } }; //json record
+      globalService.drawappDatabase.put(record, successcallback, failcallback);
+
+
+// Save-Put Example
+// =================================
+var uid = globalService.makeUniqueID();
+var record = { uid: uid, filepath: filepath, datetime: Date.now() }; //JSON for unique id for picture, filepath to retrieve it, datetime in milliseconds
+globalService.drawappDatabase.put(record, function () { console.log('db put success') }, function () { console.log('db put error') }); //record, onDBsuccess, onDBerror
+
+
+// Query Example
+// =================================
+var foundItems=[];
+var onItem = function (item) { foundItems.push(item) } // action to take when you find it.  To test - console.log(item);console.log(JSON.stringify(item));
+var keyRange = globalService.drawappDatabase.makeKeyRange({ // specifiying the range to look for (or narrow to specific item)
+    lower: "f6e2f81a-bc13-4109-9153-025319b8edbe", //value to search for
+    upper: "f6e2f81a-bc13-4109-9153-025319b8edbe" //value to search for
+});
+globalService.drawappDatabase.iterate(onItem, {  // this is the actual search on indexedDB
+    index: 'uid', // index or key column
+    keyRange: keyRange,
+    onEnd: function (item) {
+        console.log(foundItems[0].uid); // JSON obj item in array at postion [x] with named JSON property .name
+    }
+});
+
+
+// Get All Example
+// =================================
+var onSuccess = function (data) {
+    // --- !!! Split the JSON collection into an Array of JSON
+    var arr = [];
+    for (var x in data) {
+        arr.push(data[x]);
+    }
+    // ---
+    console.log('returned record is: ' + arr[0].uid); // JSON obj item in array at postion [x] with named JSON property .name
+};
+globalService.drawappDatabase.getAll(onSuccess, function () { console.log('error') })
+
+
+// Get Example
+// =================================
+foundItems.length = 0; //dump out this array 
+var onSuccess = function (data) { foundItems.push(data)}; //push into array
+globalService.drawappDatabase.get(UniqueKey, onSuccess, function () { console.log('error') }) // Primary Key value, SuccessCallback, FailCallback
+
+
+
+// Delete-Remove Example
+// =================================
+globalService.drawappDatabase.remove(UniqueKey, onDBsuccess, onDBerror) // Primary Key value, SuccessCallback, FailCallback
+
+
+
+
+
+

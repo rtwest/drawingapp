@@ -106,6 +106,7 @@
     <Content Include="gallery\gallery.html" />
     <Content Include="gallery\galleryController.js" />
     <Content Include="images\kidstagramicons.svg" />
+    <Content Include="IndexedDB_methods_with_IDBWrapper.txt" />
     <Content Include="Notes.txt" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\.fetch.json" />
     <Content Include="plugins\com.msopentech.azure-mobile-services\LICENSE" />

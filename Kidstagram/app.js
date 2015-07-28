@@ -313,7 +313,7 @@ cordovaNG.service('globalService', ['$location', function ($location) {
     // SETTING UP LOCALSTORAGE.  Create a new IndexedDB store using IDBWrapper.  NOTE: takes some time to create the store and will error if you use before it is ready.
     // http://jensarps.de/2011/11/25/working-with-idbwrapper-part-1/
     // -----------------------------
-    var foundItems = []; // create empty array for return query results
+ 
     var drawappDatabase = new IDBStore({
         dbVersion: 1,
         storeName: 'drawappDatabase',
@@ -322,8 +322,6 @@ cordovaNG.service('globalService', ['$location', function ($location) {
         onStoreReady: function () { console.log('database is ready') },
         indexes: [{ name: 'uid' }] //this adds a uniqe id column to query against later
     });
-    var onDBsuccess = function () { console.log('Database transaction success') };
-    var onDBerror = function (err) { console.log('Database transaction failed: ', err) };
     // ----------------------
 
     return  {
@@ -344,6 +342,8 @@ cordovaNG.service('globalService', ['$location', function ($location) {
 
         // Database IDBWrapper methods
         //-----------------
+        drawappDatabase: drawappDatabase, // return the IndexedDB store
+
         makeUniqueID: function generateUUID(){ // Clever function to make a GUID compliant with standard format cast as type STRING
             var d = new Date().getTime();
             var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -353,49 +353,6 @@ cordovaNG.service('globalService', ['$location', function ($location) {
             });
             return uuid;
         },
-        drawappDatabasePut: function (record) {
-            drawappDatabase.put(record, onDBsuccess, onDBerror)
-        },
-        drawappDatabaseGet: function (UniqueKey) {
-            foundItems.length = 0; //dump out this array 
-            var onSuccess = function (data) { foundItems.push(data)}; //push into array
-            drawappDatabase.get(UniqueKey, onSuccess, onDBerror)
-        },
-        // -- THIS ONE ISN'T RIGHT.  Need different onsuccess handler
-        drawappDatabaseGetall: function () {
-            foundItems.length = 0; //dump out this array 
-            var onSuccess = function (data) { foundItems.push(data);};//push into array
-            drawappDatabase.getAll(onSuccess, onDBerror)
-        },
-        drawappDatabaseRemove: function (UniqueKey) {
-            drawappDatabase.remove(UniqueKey, onDBsuccess, onDBerror)
-        },
-        drawappDatabaseFindRecordWhere: function (index, val) {
-            foundItems.length = 0; //dump out this array 
-            var onItem = function (item) { foundItems.push(item) } // action to take when you find it.  To test - console.log(item);console.log(JSON.stringify(item));
-            var keyRange = drawappDatabase.makeKeyRange({ // specifiying the range to look for (or narrow to specific item)
-                lower: val,
-                upper: val
-            });
-            drawappDatabase.iterate(onItem, {  // this is the actual search on indexedDB
-                index: index,
-                keyRange: keyRange,
-                // THE PROBLEM IS HERE.  CANNOT GET THE 'ITEM' RETURNED @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                onEnd: function (item) {
-                    console.log('IndexedDB search done: ');
-                    //$rootScope.returnitem = foundItems;  // ROOTSCOPE UNKNOWN HERE
-                    //return foundItems; // CAN'T RETURN ANYTHING FROM HERE
-                }
-            });
-        },
-        dbRecords: foundItems, // make array global
-        drawappDatabase: drawappDatabase, // return the IndexedDB store
-
-        // NOTE: To use these, add/inject 'globalService' into the calling controller and use like below.  RowID and UniqueKey are autoincremented
-        //      var record = { key: 'config2', settings: { color: 'green' } }; //json record
-        //      globalService.drawappDatabasePut(record);
-        //-----------------
-
 
 
     };//end global function defintion

@@ -562,7 +562,7 @@ cordovaNG.controller('canvasController', function ($scope, $rootScope, $http, gl
                 // --------
                 var uid = globalService.makeUniqueID();
                 var record = { uid: uid, filepath: filepath, datetime: Date.now() }; //JSON for unique id for picture, filepath to retrieve it, datetime in milliseconds
-                globalService.drawappDatabasePut(record); // Save function @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                globalService.drawappDatabase.put(record, function () { console.log('db put success') }, function () { console.log('db put error') }); //record, onDBsuccess, onDBerror
                 // --------
             },
             function (err) {console.log(err);},
@@ -653,31 +653,42 @@ cordovaNG.controller('canvasController', function ($scope, $rootScope, $http, gl
     $scope.goToGallery = function () {
 
         // Test retrieving == FOR TESTING ONLY. 
-        // -----------------------------------
-        //globalService.drawappDatabaseFindRecordWhere('uid', "f6e2f81a-bc13-4109-9153-025319b8edbe");
-        //setTimeout(function () { console.log('returned record is: ' + JSON.stringify(globalService.dbRecords[0])) }, 100) // This is a lousy hack.  Should be more elegant Callback method. 
-        //globalService.drawappDatabaseGetall();
-        //setTimeout(function () {
-        //    var items = globalService.dbRecords[0]; // get a JSON collection
-        //    // Split the JSON collection into an Array of JSON
-        //    var arr = [];
-        //    for (var x in items) {
-        //        arr.push(items[x]);
+        //// -----------------------------------
+        //// IDB Wrapper - Query Example - SAVE
+        //// ---------------------------------
+        //var foundItems=[];
+        //var onItem = function (item) { foundItems.push(item) } // action to take when you find it.  To test - console.log(item);console.log(JSON.stringify(item));
+        //var keyRange = globalService.drawappDatabase.makeKeyRange({ // specifiying the range to look for (or narrow to specific item)
+        //    lower: "f6e2f81a-bc13-4109-9153-025319b8edbe", //value to search for
+        //    upper: "f6e2f81a-bc13-4109-9153-025319b8edbe" //value to search for
+        //});
+        //globalService.drawappDatabase.iterate(onItem, {  // this is the actual search on indexedDB
+        //    index: 'uid', // index or key column
+        //    keyRange: keyRange,
+        //    onEnd: function (item) {
+        //        console.log(foundItems[0].uid); // JSON obj item in array at postion [x] with named JSON property .name
         //    }
-        //    // ---
-        //    //console.log('returned record is: ' + JSON.stringify(arr[0])); // first JSON obj item in array)
-        //    console.log('returned record is: ' + arr[0].uid); // JSON obj item in array at postion [x] with named JSON property .name)
-        //}, 100) // This is a lousy hack.  Should be more elegant Callback method. 
+        //});
 
-        // --------------
-        var foundItems = []; //dump out this array 
-        var onSuccess = function (data) { foundItems.push(data); console.log(data) };//push into array
+
+        // IDB Wrapper - Get All Example - SAVE
+        // ---------------------------------
+        var onSuccess = function (data) {
+            // --- !!! Split the JSON collection into an Array of JSON
+            var arr = [];
+            for (var x in data) {
+                arr.push(data[x]);
+            }
+            // ---
+            console.log('returned record is: ' + arr[0].uid); // JSON obj item in array at postion [x] with named JSON property .name
+        };
         globalService.drawappDatabase.getAll(onSuccess, function () { console.log('error') })
-        // @@@@@@@@@@@@@@@@@@@@@@@@ MAYBE IS EASIER TO USE THE FUNCTIONS OUTSIDE SERVICE AND USE 'ONSUCCESS' AS THE CALLBACK @@@@@@@@@@@@@@@@@@@@@@@@@@
+
 
     };
 
 
+    // -----------------------------------------------------------------------
     // Ugly hack to create an HTML canvas when the HTML partial view is loaded
     // -----------------------------------------------------------------------
     //define, resize, and insert canvas
