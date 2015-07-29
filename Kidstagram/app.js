@@ -275,12 +275,12 @@ var cordovaNG = angular.module('cordovaNG', [
 
 cordovaNG.config(function ($routeProvider) {
     $routeProvider
-        // route for the draw view
-        .when('/draw', {
-            templateUrl: 'draw/draw.html',
-            controller: 'drawController'
+        // route for the gallery view
+        .when('/gallery', {
+            templateUrl: 'gallery/gallery.html',
+            controller: 'galleryController'
         })
-        // route for the canvas view
+        // route for the canvas view.  Is also the default view '/'
         .when('/', {
             templateUrl: 'canvas/canvas.html',
             controller: 'canvasController'

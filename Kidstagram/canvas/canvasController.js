@@ -28,7 +28,7 @@
 
 
 
-cordovaNG.controller('canvasController', function ($scope, $rootScope, $http, globalService) {
+cordovaNG.controller('canvasController', function ($scope, $http, globalService) {
 
     // Scope is like the partial view datamodel.  'message' is defined in the partial html view
     //$scope.message = "Let's draw";
@@ -652,37 +652,20 @@ cordovaNG.controller('canvasController', function ($scope, $rootScope, $http, gl
     // ------------------------------------------------------------------
     $scope.goToGallery = function () {
 
-        // Test retrieving == FOR TESTING ONLY. 
-        //// -----------------------------------
-        //// IDB Wrapper - Query Example - SAVE
+        globalService.changeView('gallery');
+
+        //// IDB Wrapper - Get All Example - SAVE
         //// ---------------------------------
-        //var foundItems=[];
-        //var onItem = function (item) { foundItems.push(item) } // action to take when you find it.  To test - console.log(item);console.log(JSON.stringify(item));
-        //var keyRange = globalService.drawappDatabase.makeKeyRange({ // specifiying the range to look for (or narrow to specific item)
-        //    lower: "f6e2f81a-bc13-4109-9153-025319b8edbe", //value to search for
-        //    upper: "f6e2f81a-bc13-4109-9153-025319b8edbe" //value to search for
-        //});
-        //globalService.drawappDatabase.iterate(onItem, {  // this is the actual search on indexedDB
-        //    index: 'uid', // index or key column
-        //    keyRange: keyRange,
-        //    onEnd: function (item) {
-        //        console.log(foundItems[0].uid); // JSON obj item in array at postion [x] with named JSON property .name
+        //var onSuccess = function (data) {
+        //    // --- !!! Split the JSON collection into an Array of JSON
+        //    var arr = [];
+        //    for (var x in data) {
+        //        arr.push(data[x]);
         //    }
-        //});
-
-
-        // IDB Wrapper - Get All Example - SAVE
-        // ---------------------------------
-        var onSuccess = function (data) {
-            // --- !!! Split the JSON collection into an Array of JSON
-            var arr = [];
-            for (var x in data) {
-                arr.push(data[x]);
-            }
-            // ---
-            console.log('returned record is: ' + arr[0].uid); // JSON obj item in array at postion [x] with named JSON property .name
-        };
-        globalService.drawappDatabase.getAll(onSuccess, function () { console.log('error') })
+        //    // ---
+        //    console.log('returned record is: ' + arr[0].uid); // JSON obj item in array at postion [x] with named JSON property .name
+        //};
+        //globalService.drawappDatabase.getAll(onSuccess, function () { console.log('error') })
 
 
     };
