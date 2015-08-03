@@ -13,6 +13,18 @@
     height: 37px;
 }
 
+.svgicon.save {
+    background-position: -524px 6px;
+    width: 28px; 
+    height: 37px;
+}
+
+.svgicon.gallery {
+    background-position: -270px -1px;
+    width: 32px; 
+    height: 37px;
+}
+
 .svgicon.checkmark {
     background-position: -505px -1px; 
     width: 28px; 
@@ -96,6 +108,11 @@
 .svgicon.eraser {
     background-position: -1103px -10px; 
     width: 30px; 
+    height: 32px;
+}
+.svgicon.back {
+    background-position: -398px -1px; 
+    width: 28px; 
     height: 32px;
 }
 

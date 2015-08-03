@@ -1,10 +1,45 @@
 ﻿<!-- Gallery -->
 
-<button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="gotoCanvas()">
-    <div class="svgicon new"></div>
-</button>
+
+<!--Bootstrap3+Material class-->
+<div class="navbar navbar-default" style="padding-top:20px; z-index:10;background-color:transparent;overflow-x:auto;box-shadow:none;-webkit-box-shadow:none;">
+
+    <!--Comman Toolbar-->
+    <div class="palette-case" style="width:320px">
+
+        <button type="button" class="btn btn-default" style="box-shadow:none;" ng-click="gotoCanvas()">
+            <div class="svgicon back"></div>
+        </button>
+
+    </div> <!--end toolbar-->
+</div>
 
 <div>
     this is the gallery
 </div>
+
+<!--
+2. iterate through the array using an NG-repeater with an data template
+3. 2 columns of "cards" for drawings.  Select card to view the whole thing and see actions (delete) and return to gallery.
+-->
+
+<p>{{ gallerymessage }}</p>
+
+
+<!--'For Each' loop using object 'galleryItems' known to the $scope when defined in the controller (look for $scope.galleryItems) -->
+<!--'picture' is a new local var here for looping -- picture.'name' is working through JSON keys-->
+<div ng-repeat="picture in galleryItems" ng-include="'repeaterTemplate.html'"></div>
+<!-- This is one way to specify the repeater item template used below.  Could also be in separate HTML file loaded with ng-include="'folder/repeaterTemplate.html'" -->
+<script type="text/ng-template" id="repeaterTemplate.html">
+
+    <!--only this div's id works - need to have this ID on anything clicked-->
+    <div id="{{picture.uid}}" ng-click="galleryImageClick($event)" class="" style="height:40px; width:100%;margin:5px;padding:10px;">
+
+        <img src="{{picture.filepath}}" alt="Saved drawing" class="" style="height:40px; width:100%;" />
+
+    </div>
+
+    NEED TO MAKE FLOATING DIVS OF IMAGE PREVIEWS WITH OVERLAY OF INFO
+
+</script><!--end repeater template-->
 

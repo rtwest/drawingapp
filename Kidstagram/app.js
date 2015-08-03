@@ -310,10 +310,10 @@ cordovaNG.config(function ($routeProvider) {
 
 cordovaNG.service('globalService', ['$location', function ($location) {
 
-    // SETTING UP LOCALSTORAGE.  Create a new IndexedDB store using IDBWrapper.  NOTE: takes some time to create the store and will error if you use before it is ready.
+    // SETTING UP LOCALSTORAGE.  
+    // Create a new IndexedDB store using IDBWrapper.  NOTE: takes some time to create the store and will error if you use before it is ready.
     // http://jensarps.de/2011/11/25/working-with-idbwrapper-part-1/
     // -----------------------------
- 
     var drawappDatabase = new IDBStore({
         dbVersion: 1,
         storeName: 'drawappDatabase',
@@ -341,10 +341,12 @@ cordovaNG.service('globalService', ['$location', function ($location) {
         },
 
         // Database IDBWrapper methods
-        //-----------------
+        // -----------------
         drawappDatabase: drawappDatabase, // return the IndexedDB store
 
-        makeUniqueID: function generateUUID(){ // Clever function to make a GUID compliant with standard format cast as type STRING
+        // Clever function to make a GUID compliant with standard format cast as type STRING
+        // ----------------
+        makeUniqueID: function generateUUID(){ 
             var d = new Date().getTime();
             var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 var r = (d + Math.random()*16)%16 | 0;
